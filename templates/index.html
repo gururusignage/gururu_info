@@ -15,7 +15,7 @@
 <body class="p-4 md:p-8">
     <div class="container mx-auto">
         <h1 class="text-3xl font-extrabold text-center text-indigo-600 mb-8">
-            バス運行状況リアルタイム表示
+            中心市街地循環バスぐるる<br>秋田市マイタウン・バス<br>運行状況（試用版）
         </h1>
 
         <div class="bg-white p-6 rounded-xl shadow-2xl mb-8">
@@ -42,7 +42,7 @@
 
     <script>
         // バックエンドから渡された路線-バス停マッピング
-        const routeStopMap = JSON.parse('{{ route_stop_map | tojson }}');
+        const routeStopMap = JSON.parse('{{ route_stop_map | tojson | safe }}');
         
         const routeSelect = document.getElementById('route-select');
         const stopSelect = document.getElementById('stop-select');
