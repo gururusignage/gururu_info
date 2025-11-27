@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f9; }
+        .status-cell { font-weight: 600; }
+        .status-arrival { color: #059669; } /* Green */
+        .status-passed { color: #dc2626; } /* Red */
+        .status-na { color: #9ca3af; } /* Gray */
+        .status-before { color: #f97316; } /* Orange */
+        .card { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); }
+        
+        /* スマホ向けにラベルのスタイルを定義 */
+        .mobile-label { color: #6b7280; font-weight: 500; font-size: 0.75rem; }
+        .data-value { font-weight: 600; font-size: 0.875rem; }
+        .data-value.time { font-weight: 900; font-size: 1.5rem; } /* 時刻を特に大きく強調 */
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bus-blue': '#1e40af',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ stop }} バスの運行情報</h1>
+        </header>
+ 
+        <div class="flex flex-col sm:flex-row justify-center sm:justify-between gap-3 mb-6 max-w-lg mx-auto">
+            <button onclick="window.location.reload();" 
+                    class="flex-1 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-150">
+                更新
+            </button>
+            
+            <a href="{{ url_for('index') }}" 
+               class="flex-1 text-center px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-150">
+                バス停選択に戻る
+            </a>
+        </div>
+
+
+
+
+
+        <main class="card bg-white p-4 md:p-6 rounded-xl border border-gray-100">
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-3 rounded-md mb-6">
+                <p class="text-sm font-medium">{{ message }}</p>
+            </div>
+            
+            {% if not data %}
+            <div class="text-center py-10 text-gray-500">
+                <p class="text-xl mb-2">本日の運行情報はありません。</p>
+                <p>現在時刻の30分前以降に出発予定の便がないか、GTFSリアルタイムデータが取得できませんでした。</p>
+            </div>
+            {% else %}
+            
+            <div class="space-y-4">
+                
+                <div class="hidden sm:grid sm:grid-cols-4 gap-4 px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 rounded-t-xl">
+                    <div class="w-1/12">定刻</div>
+                    <div class="w-3/12">行き先</div>
+                    <div class="w-2/12">現在地情報</div>
+                    <div class="w-6/12">運行状況・予測</div>
+                </div>
+
+                {% for row in data %}
+                <div class="card bg-white p-4 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-150">
+                    
+                    <div class="grid grid-cols-2 gap-y-4 sm:grid-cols-4 sm:gap-2">
+                        
+                        <div class="col-span-2 sm:col-span-1 flex flex-col justify-center border-b sm:border-none pb-2 sm:pb-0">
+                            <div class="mobile-label sm:hidden">定刻</div>
+                            <div class="data-value time text-gray-900 sm:text-sm sm:font-bold">{{ row[0] }}</div>
+                        </div>
+
+                        <div class="col-span-2 sm:col-span-1 flex flex-col justify-center border-b sm:border-none pb-2 sm:pb-0">
+                            <div class="mobile-label sm:hidden">行き先</div>
+                            <div class="data-value text-gray-700 sm:text-sm sm:font-medium">{{ row[1] }}</div>
+                        </div>
+                        
+                        <div class="col-span-1 flex flex-col justify-start">
+                            <div class="mobile-label">現在地情報</div>
+                            <div class="data-value text-gray-600 text-xs sm:text-sm">
+                                {% if row[2] == '-' %}
+                                -
+                                {% else %}
+                                {{ row[2] }}を通過しました
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-span-1 flex flex-col justify-start">
+                            <div class="mobile-label">運行状況・予測</div>
+                            <div class="data-value text-xs sm:text-sm status-cell">
+                                {% set info_text = row[3] %}
+                                {% if "到着見込み" in info_text %}
+                                    <span class="status-arrival">{{ info_text }}</span>
+                                {% elif "通過・到着済み" in info_text or "運行終了" in info_text %}
+                                    <span class="status-passed">{{ info_text }}</span>
+                                {% elif "運行開始前" in info_text %}
+                                    <span class="status-before">{{ info_text }}</span>
+                                {% else %}
+                                    <span class="status-na">{{ info_text }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </main>
+        
+        <footer class="mt-8 text-center text-gray-500 text-xs">
+            <a href="{{ url_for('index') }}" class="text-blue-500 hover:text-blue-700 font-medium">他のバス停に戻る</a>
+            <p>データ提供: 秋田市GTFSデータ、GTFSリアルタイムデータ (非公式/テスト用)</p>
+        </footer>
+    </div>
+</body>
+</html>
