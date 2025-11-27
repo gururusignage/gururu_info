@@ -1,0 +1,2 @@
+﻿feed_publisher_name,feed_publisher_url,feed_contact_url,feed_contact_email,feed_lang,feed_start_date,feed_end_date,feed_version
+秋田市,https://www.city.akita.lg.jp/kurashi/kotsu/1012207/1007651.html,https://www.city.akita.lg.jp/kurashi/kotsu/1012207/1007651.html,sonosujiya@gmail.com,ja,20251107,20260331,20251001_2025年10月01日（マイタウン、ぐるるinfo） その筋屋 2.109 ●ライセンス CC BY4.0

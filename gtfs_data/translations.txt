@@ -1,0 +1,554 @@
+﻿table_name,field_name,field_value,language,translation
+stops,stop_name,日赤病院前,ja-Hrkt,にっせきびょういんまえ
+stops,stop_name,日赤病院前,en,Nisseki Byoin-mae (Red Cross Hospital)
+stops,stop_name,中央シルバーエリア,ja-Hrkt,ちゅうおうしるばーえりあ
+stops,stop_name,中央シルバーエリア,en,Chuo Silver Area
+stops,stop_name,イオンモール秋田,ja-Hrkt,いおんもーるあきた
+stops,stop_name,イオンモール秋田,en,Aeon Mall Akita
+stops,stop_name,御所野小学校前,ja-Hrkt,ごしょのしょうがっこうまえ
+stops,stop_name,御所野小学校前,en,Goshono Shogakko-mae (Goshono Elementary School)
+stops,stop_name,御所野,ja-Hrkt,ごしょの
+stops,stop_name,御所野,en,Goshono
+stops,stop_name,変電所前（河辺）,ja-Hrkt,へんでんしょまえ
+stops,stop_name,変電所前（河辺）,en,Hedensho-mae (Kawabe)
+stops,stop_name,豊成,ja-Hrkt,とよなり
+stops,stop_name,豊成,en,Toyonari
+stops,stop_name,畑谷入口,ja-Hrkt,はたやいりぐち
+stops,stop_name,畑谷入口,en,Hataya-iriguchi
+stops,stop_name,戸島下丁,ja-Hrkt,としましもちょう
+stops,stop_name,戸島下丁,en,Toshima-shimocho
+stops,stop_name,戸島中丁,ja-Hrkt,としまなかちょう
+stops,stop_name,戸島中丁,en,Toshima-nakacho
+stops,stop_name,戸島小学校前,ja-Hrkt,としましょうがっこうまえ
+stops,stop_name,戸島小学校前,en,Toshima Shogakko-mae (Toshima Elementary School)
+stops,stop_name,戸島上丁,ja-Hrkt,としまかみちょう
+stops,stop_name,戸島上丁,en,Toshima-kamicho
+stops,stop_name,川原田下丁,ja-Hrkt,かわらだしもちょう
+stops,stop_name,川原田下丁,en,Kawarada-shimocho
+stops,stop_name,川原田上丁,ja-Hrkt,かわらだかみちょう
+stops,stop_name,川原田上丁,en,Kawarada-kamicho
+stops,stop_name,市営住宅前,ja-Hrkt,しえいじゅうたくまえ
+stops,stop_name,市営住宅前,en,Shiei Jutaku-mae
+stops,stop_name,前田入口,ja-Hrkt,まえだいりぐち
+stops,stop_name,前田入口,en,Maeda-iriguchi
+stops,stop_name,河辺市民サービスセンター前,ja-Hrkt,かわべしみんさーびすせんたーまえ
+stops,stop_name,河辺市民サービスセンター前,en,Kawabe Shimin Service Center-mae
+stops,stop_name,和田駅入口,ja-Hrkt,わだえきいりぐち
+stops,stop_name,和田駅入口,en,Wada Eki-iriguchi (Wada Sta.)
+stops,stop_name,和田駅前,ja-Hrkt,わだえきまえ
+stops,stop_name,和田駅前,en,Wada Ekimae
+stops,stop_name,和田下丁,ja-Hrkt,わだしもちょう
+stops,stop_name,和田下丁,en,Wada-shimocho
+stops,stop_name,柳原前,ja-Hrkt,やなぎわらまえ
+stops,stop_name,柳原前,en,Yanagiwara-mae
+stops,stop_name,和田上丁,ja-Hrkt,わだかみちょう
+stops,stop_name,和田上丁,en,Wada-kamicho
+stops,stop_name,ふれあい広場入口,ja-Hrkt,ふれあいひろばいりぐち
+stops,stop_name,ふれあい広場入口,en,Fureai Hiroba-iriguchi
+stops,stop_name,式田口入口,ja-Hrkt,しきだぐちいりぐち
+stops,stop_name,式田口入口,en,Shikidaguchi-iriguchi
+stops,stop_name,石川,ja-Hrkt,いしかわ
+stops,stop_name,石川,en,Ishikawa (Kawabe)
+stops,stop_name,大部,ja-Hrkt,だいぶ
+stops,stop_name,大部,en,Daibu
+stops,stop_name,諸井下丁,ja-Hrkt,もろいしもちょう
+stops,stop_name,諸井下丁,en,Moroi-shimocho
+stops,stop_name,諸井上丁,ja-Hrkt,もろいかみちょう
+stops,stop_name,諸井上丁,en,Moroi-kamicho
+stops,stop_name,高岡（河辺）,ja-Hrkt,たかおか
+stops,stop_name,高岡（河辺）,en,Takaoka (Kawabe)
+stops,stop_name,赤平,ja-Hrkt,あかひら
+stops,stop_name,赤平,en,Akahira
+stops,stop_name,旧赤平小学校前,ja-Hrkt,きゅうあかひらしょうがっこうまえ
+stops,stop_name,旧赤平小学校前,en,Kyu Akahira Shogakko-mae (Former Akahira Elementary School)
+stops,stop_name,境田,ja-Hrkt,さかいだ
+stops,stop_name,境田,en,Sakaida
+stops,stop_name,曽場,ja-Hrkt,そうば
+stops,stop_name,曽場,en,Souba
+stops,stop_name,曽場上丁,ja-Hrkt,そうばかみちょう
+stops,stop_name,曽場上丁,en,Souba-kamicho
+stops,stop_name,五郎谷地入口,ja-Hrkt,ごろうやちいりぐち
+stops,stop_name,五郎谷地入口,en,Goro-yachi-iriguchi
+stops,stop_name,田尻,ja-Hrkt,たじり
+stops,stop_name,田尻,en,Tajiri
+stops,stop_name,田尻上丁,ja-Hrkt,たじりかみちょう
+stops,stop_name,田尻上丁,en,Tajiri-kamicho
+stops,stop_name,寺田,ja-Hrkt,てらだ
+stops,stop_name,寺田,en,Terada
+stops,stop_name,岩見三内,ja-Hrkt,いわみさんない
+stops,stop_name,岩見三内,en,Iwami Sannai
+stops,stop_name,岩見温泉,ja-Hrkt,いわみおんせん
+stops,stop_name,岩見温泉,en,Iwami Onsen
+stops,stop_name,御所野元町七丁目,ja-Hrkt,ごしょのもとまちななちょうめ
+stops,stop_name,御所野元町七丁目,en,Goshono-motomachi-nanachome (Goshono-motomachi 7)
+stops,stop_name,末戸柳田,ja-Hrkt,すえどやなぎだ
+stops,stop_name,末戸柳田,en,Suedo Yanagida
+stops,stop_name,末戸口,ja-Hrkt,すえどぐち
+stops,stop_name,末戸口,en,Suedoguchi
+stops,stop_name,四ツ小屋駅,ja-Hrkt,よつごやえき
+stops,stop_name,四ツ小屋駅,en,Yotsugoya Eki (Yotsugoya Sta.)
+stops,stop_name,本田,ja-Hrkt,ほんでん
+stops,stop_name,本田,en,Honden
+stops,stop_name,本田太田,ja-Hrkt,ほんでんおおた
+stops,stop_name,本田太田,en,Honden Ota
+stops,stop_name,山崎,ja-Hrkt,やまざき
+stops,stop_name,山崎,en,Yamazaki
+stops,stop_name,椿台ゴルフ場入口,ja-Hrkt,つばきだいごるふじょういりぐち
+stops,stop_name,椿台ゴルフ場入口,en,Tsubakidai Golf Course-iriguchi
+stops,stop_name,寺沢,ja-Hrkt,てらさわ
+stops,stop_name,寺沢,en,Terasawa
+stops,stop_name,寺沢上,ja-Hrkt,てらさわうえ
+stops,stop_name,寺沢上,en,Terasawa-ue
+stops,stop_name,白鳥の丘入口,ja-Hrkt,はくちょうのおかいりぐち
+stops,stop_name,白鳥の丘入口,en,Hakucho-no-oka-iriguchi
+stops,stop_name,診療所前,ja-Hrkt,しんりょうじょまえ
+stops,stop_name,診療所前,en,Shinryojo-mae
+stops,stop_name,川添郵便局前,ja-Hrkt,かわぞえゆうびんきょくまえ
+stops,stop_name,川添郵便局前,en,Kawazoe Yubinkyoku-mae (Kawazoe Post Office)
+stops,stop_name,旧川添小学校前,ja-Hrkt,きゅうかわぞえしょうがっこうまえ
+stops,stop_name,旧川添小学校前,en,Kyu Kawazoe Shogakko-mae (Former Kawazoe Elementary School)
+stops,stop_name,変電所前（雄和）,ja-Hrkt,へんでんしょまえ（ゆうわ）
+stops,stop_name,変電所前（雄和）,en,Hendensho-mae (Yuwa)
+stops,stop_name,椿川,ja-Hrkt,つばきがわ
+stops,stop_name,椿川,en,Tsubakigawa
+stops,stop_name,寺村口,ja-Hrkt,てらむらぐち
+stops,stop_name,寺村口,en,Teramuraguchi
+stops,stop_name,平沢下丁,ja-Hrkt,ひらさわしもちょう
+stops,stop_name,平沢下丁,en,Hirasawa-shimocho
+stops,stop_name,平沢,ja-Hrkt,ひらさわ
+stops,stop_name,平沢,en,Hirasawa
+stops,stop_name,石田,ja-Hrkt,いしだ
+stops,stop_name,石田,en,Ishida
+stops,stop_name,雄和市民サービスセンター前,ja-Hrkt,ゆうわしみんさーびすせんたーまえ
+stops,stop_name,雄和市民サービスセンター前,en,Yuwa Shimin Service Center-mae
+stops,stop_name,雄和市民サービスセンター,ja-Hrkt,ゆうわしみんさーびすせんたー
+stops,stop_name,雄和市民サービスセンター,en,Yuwa Shimin Service Center
+stops,stop_name,水沢入口,ja-Hrkt,みずさわいりぐち
+stops,stop_name,水沢入口,en,Mizusawa-iriguchi
+stops,stop_name,相川入口,ja-Hrkt,あいかわいりぐち
+stops,stop_name,相川入口,en,Aikawa-iriguchi
+stops,stop_name,相川下丁,ja-Hrkt,あいかわしもちょう
+stops,stop_name,相川下丁,en,Aikawa-shimocho
+stops,stop_name,相川中丁,ja-Hrkt,あいかわなかちょう
+stops,stop_name,相川中丁,en,Aikawa-nakacho
+stops,stop_name,相川上丁,ja-Hrkt,あいかわかみちょう
+stops,stop_name,相川上丁,en,Aikawa-kamicho
+stops,stop_name,相川坂の上,ja-Hrkt,あいかわさかのうえ
+stops,stop_name,相川坂の上,en,Aikawa Sakanoue
+stops,stop_name,相川上野,ja-Hrkt,あいかわうえの
+stops,stop_name,相川上野,en,Aikawa Ueno
+stops,stop_name,旧戸米川小学校前,ja-Hrkt,きゅうとめがわしょうがっこうまえ
+stops,stop_name,旧戸米川小学校前,en,Kyu Tomegawa Shogakko-mae (Former Tomegawa Elementary School)
+stops,stop_name,戸賀沢,ja-Hrkt,とがさわ
+stops,stop_name,戸賀沢,en,Togasawa
+stops,stop_name,日蓮寺,ja-Hrkt,にちれんじ
+stops,stop_name,日蓮寺,en,Nichirenji (Nichirenji Temple)
+stops,stop_name,猫沢,ja-Hrkt,ねこさわ
+stops,stop_name,猫沢,en,Nekosawa
+stops,stop_name,鷹ノ公園前,ja-Hrkt,たかのこうえんまえ
+stops,stop_name,鷹ノ公園前,en,Taka-no Koen-mae
+stops,stop_name,女米木中央,ja-Hrkt,めめぎちゅうおう
+stops,stop_name,女米木中央,en,Memegi-chuo
+stops,stop_name,川崎,ja-Hrkt,かわさき
+stops,stop_name,川崎,en,Kawasaki
+stops,stop_name,川崎渡船場前,ja-Hrkt,かわさきとせんじょうまえ
+stops,stop_name,川崎渡船場前,en,Kawasaki Tosenjo-mae
+stops,stop_name,高尾温泉前,ja-Hrkt,たかおおんせんまえ
+stops,stop_name,高尾温泉前,en,Takao Onsen-mae
+stops,stop_name,白川,ja-Hrkt,しらかわ
+stops,stop_name,白川,en,Shirakawa
+stops,stop_name,番屋,ja-Hrkt,ばんや
+stops,stop_name,番屋,en,Ban-ya
+stops,stop_name,繋,ja-Hrkt,つなぎ
+stops,stop_name,繋,en,Tsunagi
+stops,stop_name,梵天野,ja-Hrkt,ぼんてんの
+stops,stop_name,梵天野,en,Bontenno
+stops,stop_name,新浪温泉前,ja-Hrkt,あらなみおんせんまえ
+stops,stop_name,新浪温泉前,en,Aranami Onsen-mae
+stops,stop_name,新波新町,ja-Hrkt,あらわしんまち
+stops,stop_name,新波新町,en,Arawa Shimmachi
+stops,stop_name,Ａコープ大正寺前,ja-Hrkt,えーこーぷだいしょうじまえ
+stops,stop_name,Ａコープ大正寺前,en,A Coop Daishoji-mae
+stops,stop_name,雄和診療所前,ja-Hrkt,ゆうわしんりょうじょまえ
+stops,stop_name,雄和診療所前,en,Yuwa Shinryojo-mae
+stops,stop_name,新波中央,ja-Hrkt,あらわちゅうおう
+stops,stop_name,新波中央,en,Arawa-chuo
+stops,stop_name,新波,ja-Hrkt,あらわ
+stops,stop_name,新波,en,Arawa
+stops,stop_name,旧大正寺郵便局前,ja-Hrkt,きゅうだいしょうじゆうびんきょくまえ
+stops,stop_name,旧大正寺郵便局前,en,Kyu Daishoji Yubinkyoku-mae (Former Daishoji Post Office)
+stops,stop_name,陣笠,ja-Hrkt,じんがさ
+stops,stop_name,陣笠,en,Jingasa
+stops,stop_name,助ノ沢,ja-Hrkt,すけのさわ
+stops,stop_name,助ノ沢,en,Sukenosawa
+stops,stop_name,下大橋,ja-Hrkt,しもおおはし
+stops,stop_name,下大橋,en,Shimo-Ohashi
+stops,stop_name,ふるさと温泉前,ja-Hrkt,ふるさとおんせんまえ
+stops,stop_name,ふるさと温泉前,en,Furusato Onsen-mae
+stops,stop_name,東又入口,ja-Hrkt,ひがしまたいりぐち
+stops,stop_name,東又入口,en,Higashimata-iriguchi
+stops,stop_name,西の又,ja-Hrkt,にしのまた
+stops,stop_name,西の又,en,Nishinomata
+stops,stop_name,四ツ小屋下丁,ja-Hrkt,よつごやしもちょう
+stops,stop_name,四ツ小屋下丁,en,Yotsugoya-shimocho
+stops,stop_name,四ツ小屋中丁,ja-Hrkt,よつごやなかちょう
+stops,stop_name,四ツ小屋中丁,en,Yotsugoya-nakacho
+stops,stop_name,上町生活センター前,ja-Hrkt,かみちょうせいかつせんたーまえ
+stops,stop_name,上町生活センター前,en,Kamicho Seikatsu Center-mae
+stops,stop_name,四ツ小屋上丁,ja-Hrkt,よつごやかみちょう
+stops,stop_name,四ツ小屋上丁,en,Yotsugoya-kamicho
+stops,stop_name,芝野下丁,ja-Hrkt,しばのしもちょう
+stops,stop_name,芝野下丁,en,Shibano-shimocho
+stops,stop_name,沖村,ja-Hrkt,おきむら
+stops,stop_name,沖村,en,Okimura
+stops,stop_name,沖村入口,ja-Hrkt,おきむらいりぐち
+stops,stop_name,沖村入口,en,Okimura-iriguchi
+stops,stop_name,芝野会館前,ja-Hrkt,しばのかいかんまえ
+stops,stop_name,芝野会館前,en,Shibano Kaikan-mae
+stops,stop_name,芝野上丁,ja-Hrkt,しばのかみちょう
+stops,stop_name,芝野上丁,en,Shibano-kamicho
+stops,stop_name,芝野新田,ja-Hrkt,しばのしんでん
+stops,stop_name,芝野新田,en,Shibano Shinden
+stops,stop_name,鹿野戸下村,ja-Hrkt,かのとしもむら
+stops,stop_name,鹿野戸下村,en,Kanoto Shimomura
+stops,stop_name,雄和郵便局前,ja-Hrkt,ゆうわゆうびんきょくまえ
+stops,stop_name,雄和郵便局前,en,Yuwa Yubinkyoku-mae (Yuwa Post Office)
+stops,stop_name,妙法入口,ja-Hrkt,みょうほういりぐち
+stops,stop_name,妙法入口,en,Myoho-iriguchi
+stops,stop_name,糠塚華の里,ja-Hrkt,ぬかづかはなのさと
+stops,stop_name,糠塚華の里,en,Nukazuka Hananosato
+stops,stop_name,平尾鳥入口,ja-Hrkt,ひらおどりいりぐち
+stops,stop_name,平尾鳥入口,en,Hiraodori-iriguchi
+stops,stop_name,旧種平小学校前,ja-Hrkt,きゅうたねひらしょうがっこうまえ
+stops,stop_name,旧種平小学校前,en,Kyu Tanehira Shogakko-mae (Former Tanehira Elementary School)
+stops,stop_name,中央保育所前,ja-Hrkt,ちゅうおうほいくしょまえ
+stops,stop_name,中央保育所前,en,Chuo Hoikusho-mae (Chuo Nursery)
+stops,stop_name,駐在所前,ja-Hrkt,ちゅうざいしょまえ
+stops,stop_name,駐在所前,en,Chuzaisho-mae (Police Station)
+stops,stop_name,野中（雄和）,ja-Hrkt,のなか
+stops,stop_name,野中（雄和）,en,Nonaka (Yuwa)
+stops,stop_name,太子前,ja-Hrkt,たいしまえ
+stops,stop_name,太子前,en,Taishimae
+stops,stop_name,金ヶ崎（雄和）,ja-Hrkt,かねがさき
+stops,stop_name,金ヶ崎（雄和）,en,Kanegasaki (Yuwa)
+stops,stop_name,左手子会館前,ja-Hrkt,さでこかいかんまえ
+stops,stop_name,左手子会館前,en,Sadeko Kaikan-mae
+stops,stop_name,左手子入口,ja-Hrkt,さでこいりぐち
+stops,stop_name,左手子入口,en,Sadeko-iriguchi
+stops,stop_name,向野下丁,ja-Hrkt,むかいのしもちょう
+stops,stop_name,向野下丁,en,Mukaino-shimocho
+stops,stop_name,向野上丁,ja-Hrkt,むかいのかみちょう
+stops,stop_name,向野上丁,en,Mukaino-kamicho
+stops,stop_name,旧大正寺小学校前,ja-Hrkt,きゅうだいしょうじしょうがっこうまえ
+stops,stop_name,旧大正寺小学校前,en,Kyu Daishoji Shogakko-mae (Former Daishoji Elementary School)
+stops,stop_name,砂村入口,ja-Hrkt,すなむらいりぐち
+stops,stop_name,砂村入口,en,Sunamura-iriguchi
+stops,stop_name,クネソエ,ja-Hrkt,くねそえ
+stops,stop_name,クネソエ,en,Kunesoe
+stops,stop_name,碇田,ja-Hrkt,いかりだ
+stops,stop_name,碇田,en,Ikarida
+stops,stop_name,萱ヶ沢入口,ja-Hrkt,かやがさわいりぐち
+stops,stop_name,萱ヶ沢入口,en,Kayagasawa-iriguchi
+stops,stop_name,大台入口,ja-Hrkt,おおだいいりぐち
+stops,stop_name,大台入口,en,Odai-iriguchi
+stops,stop_name,萱ヶ沢下丁,ja-Hrkt,かやがさわしもちょう
+stops,stop_name,萱ヶ沢下丁,en,Kayagasawa-shimocho
+stops,stop_name,萱ヶ沢上丁,ja-Hrkt,かやがさわかみちょう
+stops,stop_name,萱ヶ沢上丁,en,Kayagasawa-kamicho
+stops,stop_name,命ヶ沢,ja-Hrkt,いのちがさわ
+stops,stop_name,命ヶ沢,en,Inochigasawa
+stops,stop_name,杉菜沢入口,ja-Hrkt,すぎなさわいりぐち
+stops,stop_name,杉菜沢入口,en,Suginasawa-iriguchi
+stops,stop_name,中ノ沢入口,ja-Hrkt,なかのさわいりぐち
+stops,stop_name,中ノ沢入口,en,Nakanosawa-iriguchi
+stops,stop_name,二タノ沢入口,ja-Hrkt,ふたのさわいりぐち
+stops,stop_name,二タノ沢入口,en,Futanosawa-iriguchi
+stops,stop_name,中ノ沢会館前,ja-Hrkt,なかのさわかいかんまえ
+stops,stop_name,中ノ沢会館前,en,Nakanosawa Kaikan-mae
+stops,stop_name,西部サービスセンター,ja-Hrkt,せいぶさーびすせんたー
+stops,stop_name,西部サービスセンター,en,Seibu Shimin Service Center
+stops,stop_name,日吉神社前,ja-Hrkt,ひよしじんじゃまえ
+stops,stop_name,日吉神社前,en,Hiyoshi Jinja-mae (Hiyoshi Jinja Shrine)
+stops,stop_name,中村入口,ja-Hrkt,なかむらいりぐち
+stops,stop_name,中村入口,en,Nakamura-iriguchi
+stops,stop_name,中村一区,ja-Hrkt,なかむらいっく
+stops,stop_name,中村一区,en,Nakamura-ikku
+stops,stop_name,元中村,ja-Hrkt,もとなかむら
+stops,stop_name,元中村,en,Moto-nakamura
+stops,stop_name,中村二区,ja-Hrkt,なかむらにく
+stops,stop_name,中村二区,en,Nakamura-niku
+stops,stop_name,大森山公園西入口,ja-Hrkt,おおもりやまこうえんにしいりぐち
+stops,stop_name,大森山公園西入口,en,Omoriyama Koen nishi-iriguchi (Omoriyama Park west Entrance)
+stops,stop_name,中村三区,ja-Hrkt,なかむらさんく
+stops,stop_name,中村三区,en,Nakamura-sanku
+stops,stop_name,浜田小学校前,ja-Hrkt,はまだしょうがっこうまえ
+stops,stop_name,浜田小学校前,en,Hamada Shogakko-mae (Hamada Elementary School)
+stops,stop_name,滝ノ下一区,ja-Hrkt,たきのしたいっく
+stops,stop_name,滝ノ下一区,en,Takinoshita-ikku
+stops,stop_name,滝ノ下二区,ja-Hrkt,たきのしたにく
+stops,stop_name,滝ノ下二区,en,Takinoshita-niku
+stops,stop_name,滝ノ下三区,ja-Hrkt,たきのしたさんく
+stops,stop_name,滝ノ下三区,en,Takinoshita-sanku
+stops,stop_name,滝ノ原,ja-Hrkt,たきのはら
+stops,stop_name,滝ノ原,en,Takinohara
+stops,stop_name,浜田回転地,ja-Hrkt,はまだかいてんち
+stops,stop_name,浜田回転地,en,Hamada Kaitenchi
+stops,stop_name,老人ホーム入口,ja-Hrkt,ろうじんほーむいりぐち
+stops,stop_name,老人ホーム入口,en,Rojin Home-iriguchi (Elderly Nursing Home)
+stops,stop_name,比内町,ja-Hrkt,ひないちょう
+stops,stop_name,比内町,en,Hinaicho
+stops,stop_name,大森山公園東入口,ja-Hrkt,おおもりやまこうえんひがしいりぐち
+stops,stop_name,大森山公園東入口,en,Omoriyama Koen Higashi-iriguchi (Omoriyama Park east Entrance)
+stops,stop_name,宮田沢,ja-Hrkt,みやたざわ
+stops,stop_name,宮田沢,en,Miyatazawa
+stops,stop_name,梅林園入口,ja-Hrkt,ばいりんえんいりぐち
+stops,stop_name,梅林園入口,en,Bairin-en-iriguchi
+stops,stop_name,滝ノ下入口,ja-Hrkt,たきのしたいりぐち
+stops,stop_name,滝ノ下入口,en,Takinoshita-iriguchi
+stops,stop_name,境川,ja-Hrkt,さかいがわ
+stops,stop_name,境川,en,Sakaigawa
+stops,stop_name,桂根一区,ja-Hrkt,かつらねいっく
+stops,stop_name,桂根一区,en,Katsurane-ikku
+stops,stop_name,桂根二区,ja-Hrkt,かつらねにく
+stops,stop_name,桂根二区,en,Katsurane-niku
+stops,stop_name,大山,ja-Hrkt,おおやま
+stops,stop_name,大山,en,Ohyama
+stops,stop_name,長浜,ja-Hrkt,ながはま
+stops,stop_name,長浜,en,Nagahama
+stops,stop_name,本敬寺前,ja-Hrkt,ほんきょうじまえ
+stops,stop_name,本敬寺前,en,Honkyoji-mae (Honkyoji Temple)
+stops,stop_name,高安森,ja-Hrkt,たかやすもり
+stops,stop_name,高安森,en,Takayasumori
+stops,stop_name,下浜駅前,ja-Hrkt,しもはまえきまえ
+stops,stop_name,下浜駅前,en,Shimohama Sta.
+stops,stop_name,下浜小学校前,ja-Hrkt,しもはましょうがっこうまえ
+stops,stop_name,下浜小学校前,en,Shimohama Shogakko-mae (Shimohama Elementary School)
+stops,stop_name,陽光台,ja-Hrkt,ようこうだい
+stops,stop_name,陽光台,en,Yokodai
+stops,stop_name,羽川保育所前,ja-Hrkt,はねかわほいくじょまえ
+stops,stop_name,羽川保育所前,en,Hanekawa Hoikusho-mae (Hanekawa Nursery)
+stops,stop_name,古堂,ja-Hrkt,ふるどう
+stops,stop_name,古堂,en,Furudo
+stops,stop_name,妙見神社前,ja-Hrkt,みょうけんじんじゃまえ
+stops,stop_name,妙見神社前,en,Myoken Jinja-mae (Myoken-Jinja Shrine)
+stops,stop_name,羽川公民館前,ja-Hrkt,はねかわこうみんかんまえ
+stops,stop_name,羽川公民館前,en,Hanekawa Kouminkan-mae
+stops,stop_name,羽川,ja-Hrkt,はねかわ
+stops,stop_name,羽川,en,Hanekawa
+stops,stop_name,羽川回転地,ja-Hrkt,はねかわかいてんち
+stops,stop_name,羽川回転地,en,Hanekawa Kaitenchi
+stops,stop_name,神田橋,ja-Hrkt,じんでんばし
+stops,stop_name,神田橋,en,Jinden-bashi
+stops,stop_name,弥兵衛橋,ja-Hrkt,やへえばし
+stops,stop_name,弥兵衛橋,en,Yahei-bashi
+stops,stop_name,田中,ja-Hrkt,たなか
+stops,stop_name,田中,en,Tanaka
+stops,stop_name,白幡,ja-Hrkt,しらはた
+stops,stop_name,白幡,en,Shirahata
+stops,stop_name,名ヶ沢入口,ja-Hrkt,みょうがさわいりぐち
+stops,stop_name,名ヶ沢入口,en,Myogasawa-iriguchi
+stops,stop_name,中村,ja-Hrkt,なかむら
+stops,stop_name,中村,en,Nakamura
+stops,stop_name,名ヶ沢,ja-Hrkt,みょうがさわ
+stops,stop_name,名ヶ沢,en,Myogasawa
+stops,stop_name,新屋踏切前,ja-Hrkt,あらやふみきりまえ
+stops,stop_name,新屋踏切前,en,Araya Fumikiri-mae
+stops,stop_name,新屋鳥木町,ja-Hrkt,あらやとりきまち
+stops,stop_name,新屋鳥木町,en,Araya-torikimachi
+stops,stop_name,田尻沢,ja-Hrkt,たじりさわ
+stops,stop_name,田尻沢,en,Tajirisawa
+stops,stop_name,新屋高校入口,ja-Hrkt,あらやこうこういりぐち
+stops,stop_name,新屋高校入口,en,Araya Koko-iriguchi
+stops,stop_name,田尻沢東町,ja-Hrkt,たじりさわひがしちょう
+stops,stop_name,田尻沢東町,en,Tajirizawa-higashicho
+stops,stop_name,新屋高校前,ja-Hrkt,あらやこうこうまえ
+stops,stop_name,新屋高校前,en,Araya Koko-mae (Araya High School)
+stops,stop_name,石田坂下丁,ja-Hrkt,いしだざかしもちょう
+stops,stop_name,石田坂下丁,en,Ishidazaka-shimocho
+stops,stop_name,市兵衛橋,ja-Hrkt,いちべいはし
+stops,stop_name,市兵衛橋,en,Ichibei-bashi
+stops,stop_name,神明社,ja-Hrkt,しんめいしゃ
+stops,stop_name,神明社,en,Shimmeisha
+stops,stop_name,石田坂,ja-Hrkt,いしだざか
+stops,stop_name,石田坂,en,Ishidazaka
+stops,stop_name,平の下,ja-Hrkt,ひらのした
+stops,stop_name,平の下,en,Hiranoshita
+stops,stop_name,居使,ja-Hrkt,いづかい
+stops,stop_name,居使,en,Izukai
+stops,stop_name,上居使,ja-Hrkt,かみいづかい
+stops,stop_name,上居使,en,Kami-izukai
+stops,stop_name,下中島,ja-Hrkt,しもなかじま
+stops,stop_name,下中島,en,Shimo-nakajima
+stops,stop_name,中島,ja-Hrkt,なかじま
+stops,stop_name,中島,en,Nakajima
+stops,stop_name,豊岩コミセン前,ja-Hrkt,とよいわこみせんまえ
+stops,stop_name,豊岩コミセン前,en,Toyoiwa Komisen-mae (Toyoiwa Community Center)
+stops,stop_name,豊岩小学校前,ja-Hrkt,とよいわしょうがっこうまえ
+stops,stop_name,豊岩小学校前,en,Toyoiwa Shogakko-mae (Toyoiwa Elementary School)
+stops,stop_name,白華公園前,ja-Hrkt,はっかこうえんまえ
+stops,stop_name,白華公園前,en,Hakka Koen-mae
+stops,stop_name,前郷,ja-Hrkt,まえごう
+stops,stop_name,前郷,en,Maego
+stops,stop_name,前郷中山,ja-Hrkt,まえごうなかやま
+stops,stop_name,前郷中山,en,Maego Nakayama
+stops,stop_name,ふれあいの里,ja-Hrkt,ふれあいのさと
+stops,stop_name,ふれあいの里,en,Fureai-no-sato
+stops,stop_name,地蔵尊前,ja-Hrkt,じぞうそんまえ
+stops,stop_name,地蔵尊前,en,Jizoson-mae
+stops,stop_name,小山入口,ja-Hrkt,おやまいりぐち
+stops,stop_name,小山入口,en,Oyama-iriguchi
+stops,stop_name,小山,ja-Hrkt,おやま
+stops,stop_name,小山,en,Oyama
+stops,stop_name,狐森,ja-Hrkt,きつねもり
+stops,stop_name,狐森,en,Kitsunemori
+stops,stop_name,小山回転地,ja-Hrkt,おやまかいてんち
+stops,stop_name,小山回転地,en,Oyama Kaitenchi
+stops,stop_name,楢田入口,ja-Hrkt,ならたいりぐち
+stops,stop_name,楢田入口,en,Narata-iriguchi
+stops,stop_name,石崎,ja-Hrkt,いしざき
+stops,stop_name,石崎,en,Ishizaki
+stops,stop_name,楢田,ja-Hrkt,ならた
+stops,stop_name,楢田,en,Narata
+stops,stop_name,野中,ja-Hrkt,のなか
+stops,stop_name,野中,en,Nonaka
+stops,stop_name,黒瀬橋,ja-Hrkt,くろせばし
+stops,stop_name,黒瀬橋,en,Kurose-bashi
+stops,stop_name,湯野目入口,ja-Hrkt,ゆのめいりぐち
+stops,stop_name,湯野目入口,en,Yunome-iriguchi
+stops,stop_name,湯野目,ja-Hrkt,ゆのめ
+stops,stop_name,湯野目,en,Yunome
+stops,stop_name,高徳谷地,ja-Hrkt,こうとくやち
+stops,stop_name,高徳谷地,en,Kotokuyachi
+stops,stop_name,赤坂,ja-Hrkt,あかさか
+stops,stop_name,赤坂,en,Akasaka
+stops,stop_name,八田公民館,ja-Hrkt,はったこうみんかん
+stops,stop_name,八田公民館,en,Hatta Kouminkan
+stops,stop_name,八田上丁,ja-Hrkt,はったかみちょう
+stops,stop_name,八田上丁,en,Hatta-kamicho
+stops,stop_name,秋田駅西口,ja-Hrkt,あきたえきにしぐち
+stops,stop_name,秋田駅西口,en,Akita Sta. Nishiguchi
+stops,stop_name,千秋公園入口,ja-Hrkt,せんしゅうこうえんいりぐち
+stops,stop_name,千秋公園入口,en,Senshu Koen-iriguchi
+stops,stop_name,木内前,ja-Hrkt,きのうちまえ
+stops,stop_name,木内前,en,Kinouchi-mae
+stops,stop_name,通町,ja-Hrkt,とおりまち
+stops,stop_name,通町,en,Tori-machi
+stops,stop_name,ねぶり流し館前,ja-Hrkt,ねぶりながしかんまえ
+stops,stop_name,ねぶり流し館前,en,Neburi-nagashi-kan-mae
+stops,stop_name,大町通り,ja-Hrkt,おおまちどおり
+stops,stop_name,大町通り,en,Omachi-dori
+stops,stop_name,北都銀行前,ja-Hrkt,ほくとぎんこうまえ
+stops,stop_name,北都銀行前,en,Hokuto Ginko-mae
+stops,stop_name,五丁目橋,ja-Hrkt,ごちょうめばし
+stops,stop_name,五丁目橋,en,Gochome-bashi
+stops,stop_name,中通六郵便局前,ja-Hrkt,なかどおりろくゆうびんきょくまえ
+stops,stop_name,中通六郵便局前,en,Nakadori roku Yubinkyoku-mae (Nkadoori 6 Post Office)
+stops,stop_name,南大通り・中通病院前,ja-Hrkt,みなみおおどおりなかどおりびょういんまえ
+stops,stop_name,南大通り・中通病院前,en,Minami-Odori / Nakadori Byoin-mae (Minami Odori / Nakadori Hospital)
+stops,stop_name,市民市場前,ja-Hrkt,しみんいちばまえ
+stops,stop_name,市民市場前,en,Shimin Ichiba-mae
+stops,stop_name,買物広場,ja-Hrkt,かいものひろば
+stops,stop_name,買物広場,en,Kaimono Hiroba
+stops,stop_name,ミルハス前,ja-Hrkt,みるはす前
+stops,stop_name,ミルハス前,en,Miruhasu-Mae
+stops,stop_name,西中学校前,ja-Hrkt,にしちゅうがっこうまえ
+stops,stop_name,西中学校前,en,Nishi Chugakko-mae (Nishi Junior High School)
+stop_times,stop_headsign,浜田回転地,en,Hamada Kaitenchi
+stop_times,stop_headsign,西部サービスセンター,en,West Civic Service Center
+stop_times,stop_headsign,名ヶ沢（浜田 経由）,en,Myogasawa
+stop_times,stop_headsign,羽川（境川 経由）,en,Hanekawa
+stop_times,stop_headsign,名ヶ沢（境川 経由）,en,Myogasawa
+stop_times,stop_headsign,羽川（浜田 経由）,en,Hanekawa
+stop_times,stop_headsign,西部サービスセンター（浜田 経由）,en,West Civic Service Center
+stop_times,stop_headsign,西部サービスセンター（境川 経由）,en,West Civic Service Center
+stop_times,stop_headsign,八田上丁（湯野目 経由）,en,Hatta-Kamicho
+stop_times,stop_headsign,八田上丁（石崎 経由）,en,Hatta-Kamicho
+stop_times,stop_headsign,西部サービスセンター（湯野目 経由）,en,West Civic Service Center
+stop_times,stop_headsign,西部サービスセンター（石崎 経由）,en,West Civic Service Center
+stop_times,stop_headsign,西部サービスセンター（石崎・新屋高校 経由）,en,West Civic Service Center
+stop_times,stop_headsign,岩見温泉,en,Iwami Onsen
+stop_times,stop_headsign,イオンモール秋田,en,Aeon Mall Akita
+stop_times,stop_headsign,日赤病院前,en,Nisseki Byoin-mae (Red Cross Hospital)
+stop_times,stop_headsign,シルバーエリア,en,Chuo Silver Area
+stop_times,stop_headsign,西の又（Ａコープ 経由）,en,Nishinomata
+stop_times,stop_headsign,中央シルバーエリア,en,Chuo Silver Area
+stop_times,stop_headsign,西の又,en,Nishinomata
+stop_times,stop_headsign,新波,en,Arawa
+stop_times,stop_headsign,日赤病院前（中央シルバーエリア 経由）,en,Nisseki Byoin-mae (Red Cross Hospital)
+stop_times,stop_headsign,イオンモール秋田（Ａコープ 経由）,en,Aeon Mall Akita
+stop_times,stop_headsign,新波（沖村・Ａコープ 経由）,en,Arawa
+stop_times,stop_headsign,雄和市民サービスセンター,en,Yuuwa Civic Service Center
+stop_times,stop_headsign,命ヶ沢（沖村・Ａコープ 経由）,en,Inochigasawa
+stop_times,stop_headsign,中ノ沢会館前（沖村・Ａコープ 経由）,en,Nakanosawa Community Hall
+stop_times,stop_headsign,命ヶ沢,en,Inochigasawa
+stop_times,stop_headsign,日赤病院前（Aコープ・沖村 経由）,en,Nisseki Byoin-mae (Red Cross Hospital)
+stop_times,stop_headsign,イオンモール秋田（Ａコープ・沖村 経由）,en,Aeon Mall Akita
+stop_times,stop_headsign,ぐるる（買物広場止まり）,en,Gururu(Central City Loop Bus)
+stop_times,stop_headsign,ぐるる（買物広場で乗換）,en,Gururu(Central City Loop Bus)
+stop_times,stop_headsign,小山回転地,en,Oyama-Kaitenchi
+stop_times,stop_headsign,西中学校前（湯野目 経由）,en,Nishi-Ｃｈｕｇａｋｋｏ-Mae(West-Junior-HighSchool)
+stop_times,stop_headsign,西中前（境川 経由）,en,Nishi-Ｃｈｕｇａｋｋｏ-Mae(West-Junior-HighSchool)
+stop_times,stop_headsign,日赤病院前（Aコープ 経由）,en,Nisseki Byoin-mae (Red Cross Hospital)
+stop_times,stop_headsign,西の又（Aコープ 経由）,en,Nishinomata
+stop_times,stop_headsign,日赤病院前（Aコープ・中央シルバーエリア 経由）,en,Nisseki Byoin-mae (Red Cross Hospital)
+stop_times,stop_headsign,新波（Aコープ 経由）,en,Arawa
+stop_times,stop_headsign,ぐるる（中心市街地循環バス）,en,Gururu(Central City Loop Bus)
+stop_times,stop_headsign,中央シルバーエリア（Ａコープ 経由）,en,Chuo Silver Area
+stop_times,stop_headsign,命ヶ沢（Aコープ 経由）,en,Inochigasawa
+stop_times,stop_headsign,イオンモール秋田（Aコープ・沖村 経由）,en,Aeon Mall Akita
+stop_times,stop_headsign,中央シルバーエリア（Ａコープ・沖村 経由）,en,Chuo Silver Area
+stop_times,stop_headsign,日赤病院前（Ａコープ・沖村 経由）,en,Nisseki Byoin-mae (Red Cross Hospital)
+routes,route_long_name,西部線浜田コース,en,Hamada Line
+routes,route_long_name,西部線下浜コース（西部ＳＣ－浜田－名ヶ沢）,en,Shimohama Line
+routes,route_long_name,西部線下浜コース（西部ＳＣ－境川－羽川）,en,Shimohama Line
+routes,route_long_name,西部線下浜コース（西部ＳＣ－境川－名ヶ沢）,en,Shimohama Line
+routes,route_long_name,西部線下浜コース（西部ＳＣ－名ヶ沢－羽川）,en,Shimohama Line
+routes,route_long_name,西部線豊岩コース（湯野目）,en,Toyoiwa Line
+routes,route_long_name,西部線豊岩コース（石崎）,en,Toyoiwa Line
+routes,route_long_name,西部線豊岩コース（新屋高校前ー西部ＳＣ）,en,Toyoiwa Line
+routes,route_long_name,南部線河辺Ａコース（イオンー岩見温泉）,en,Kawabe A Line
+routes,route_long_name,南部線河辺Ａコース（日赤ー岩見温泉）,en,Kawabe A Line
+routes,route_long_name,南部線河辺Ａコース（シルバーエリアー岩見温泉）,en,Kawabe A Line
+routes,route_long_name,南部線雄和Ａコース（イオンーＡコープー西の又）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（西の又ーシルバーエリア）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ｂコース（シルバーエリアー命ヶ沢）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ａコース（イオンー西の又）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（日赤ーＡコープー西の又）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（日赤ー西の又）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（シルバーエリアー西の又）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（イオンー新波）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（西の又ーイオン）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（日赤ーシルバーエリアー西の又）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（西の又ーＡコープーイオン）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（雄和ＳＣー日赤）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（新波ーイオン）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ｂコース（イオンー新波）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（イオンー沖村ーＡコープー新波）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（イオンー雄和ＳＣ）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（日赤ー沖村ーＡコープー命ヶ沢）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（日赤ー沖村ーAコープー中ノ沢会館）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（イオンー沖村ーＡコープー命ヶ沢）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（イオンー沖村ーＡコープー中ノ沢会館）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（イオンー命ヶ沢）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（日赤ー命ヶ沢）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（日赤ー→Aコープ－沖村－日赤病院前）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（日赤ーシルバーエリアー命ヶ沢）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（命ヶ沢ーＡコープーイオン）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（中ノ沢会館ーＡコープーイオン）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（命ヶ沢ーＡコープー沖村ーイオン）,en,Yuuwa B Line
+routes,route_long_name,西部線豊岩コース（小山回転地）,en,Toyoiwa Line
+routes,route_long_name,西部線豊岩コース（湯野目ー西中学校前）,en,Toyoiwa Line
+routes,route_long_name,南部線雄和Ａコース（西の又ーAコープー日赤）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（シルバーエリアーAコープー西の又）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（西の又ーAコープーシルバーエリアー日赤）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ａコース（イオンーAコープー新波）,en,Yuuwa A Line
+routes,route_long_name,中心市街地循環バスぐるる,en,Gururu (Central City Loop Bus)
+routes,route_long_name,南部線雄和Ａコース（西の又ーＡコープーシルバーエリア）,en,Yuuwa A Line
+routes,route_long_name,南部線雄和Ｂコース（イオンーAコープー新波）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（日赤ー沖村ーＡコープー新波）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（イオンーAコープー命ヶ沢）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（シルバーエリアーAコープー命ヶ沢）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（命ヶ沢ーAコープーシルバーエリアー日赤）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（中ノ沢会館ーAコープー沖村ーイオン）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（命ヶ沢ーAコープー沖村ーシルバーエリア）,en,Yuuwa B Line
+routes,route_long_name,南部線雄和Ｂコース（命ヶ沢ーAコープー沖村ー日赤）,en,Yuuwa B Line
