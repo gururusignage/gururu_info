@@ -1,0 +1,6 @@
+# requirements.txt
+Flask
+gtfs-realtime-bindings
+pandas
+numpy
+gunicorn # Webサーバー (GAEデプロイ時に推奨)
