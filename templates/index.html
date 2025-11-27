@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バス運行状況 - 路線選択</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; color: #1e293b; }
+        .container { max-width: 600px; }
+        .route-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .route-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-extrabold text-center text-indigo-600 mb-8">
+            バス運行状況リアルタイム表示
+        </h1>
+
+        <div class="bg-white p-6 rounded-xl shadow-2xl mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">① 路線グループを選択してください</h2>
+            <select id="route-select" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
+                <option value="" disabled selected>--- 路線を選択 ---</option>
+                {% for route_name in route_names %}
+                    <option value="{{ route_name }}">{{ route_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-2xl">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">② バス停を選択してください</h2>
+            <select id="stop-select" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out" disabled>
+                <option value="" disabled selected>--- バス停を選択 ---</option>
+            </select>
+            
+            <button id="view-schedule" class="w-full mt-6 py-3 px-4 bg-indigo-600 text-white font-bold rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-150 ease-in-out" disabled>
+                運行表を表示
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // バックエンドから渡された路線-バス停マッピング
+        const routeStopMap = JSON.parse('{{ route_stop_map | tojson }}');
+        
+        const routeSelect = document.getElementById('route-select');
+        const stopSelect = document.getElementById('stop-select');
+        const viewScheduleButton = document.getElementById('view-schedule');
+
+        routeSelect.addEventListener('change', function() {
+            const selectedRoute = this.value;
+            const stops = routeStopMap[selectedRoute] || [];
+            
+            // バス停セレクトボックスをリセット
+            stopSelect.innerHTML = '<option value="" disabled selected>--- バス停を選択 ---</option>';
+            stopSelect.disabled = true;
+            viewScheduleButton.disabled = true;
+
+            if (stops.length > 0) {
+                stops.forEach(stopName => {
+                    const option = document.createElement('option');
+                    option.value = stopName;
+                    option.textContent = stopName;
+                    stopSelect.appendChild(option);
+                });
+                stopSelect.disabled = false;
+            }
+        });
+
+        stopSelect.addEventListener('change', function() {
+            // バス停が選択されたらボタンを有効化
+            viewScheduleButton.disabled = !this.value;
+        });
+
+        viewScheduleButton.addEventListener('click', function() {
+            const selectedStop = stopSelect.value;
+            if (selectedStop) {
+                // 選択されたバス停名でURLを構築し、移動
+                // URLエンコードを確実に行う
+                window.location.href = '/' + encodeURIComponent(selectedStop);
+            }
+        });
+    </script>
+</body>
+</html>
