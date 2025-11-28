@@ -54,100 +54,56 @@ def time_to_seconds(time_str):
 def load_gtfs_data():
     """GTFS静的データをPandas DataFrameとしてメモリにロードし、必要なマッピングを作成する"""
     print("GTFS静的データをロード中...")
-    
-    # 疑似GTFSデータの内容定義
-    # NOTE: 本来は外部ファイルからロードしますが、実行環境の都合上、コード内で定義します。
-    gtfs_data_content = {
-        'stop_times.txt': """
-trip_id,arrival_time,departure_time,stop_id,stop_sequence
-tripA01,09:00:00,09:00:00,S-01,1
-tripA01,09:10:00,09:10:00,S-05,2
-tripA01,09:20:00,09:20:00,S-10_01,3
-tripA01,09:30:00,09:30:00,S-15_01,4
-tripB01,10:00:00,10:00:00,S-15_01,1
-tripB01,10:15:00,10:15:00,S-05,2
-tripB01,10:30:00,10:30:00,S-01,3
-tripA02,11:00:00,11:00:00,S-01,1
-tripA02,11:10:00,11:10:00,S-05,2
-tripA02,11:20:00,11:20:00,S-10_01,3
-tripA02,11:30:00,11:30:00,S-15_01,4
-""",
-        'trips.txt': """
-route_id,service_id,trip_id,trip_headsign
-RouteA,D1,tripA01,中央駅行き
-RouteB,D1,tripB01,市役所行き
-RouteA,D1,tripA02,中央駅行き
-""",
-        'stops.txt': """
-stop_id,stop_name,stop_lat,stop_lon
-S-01,市役所前,39.718,140.101
-S-05,大学病院,39.715,140.105
-S-10_01,中央駅東口,39.720,140.110
-S-10_02,中央駅西口,39.720,140.111
-S-15_01,最終ターミナル,39.730,140.120
-S-15_02,最終ターミナル（別）
-""",
-        'routes.txt': """
-route_id,route_short_name,route_long_name
-RouteA,A,市役所前-最終ターミナル
-RouteB,B,最終ターミナル-市役所前
-""",
-        'calendar.txt': """
-service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
-D1,1,1,1,1,1,0,0,20230101,20241231
-D2,0,0,0,0,0,1,1,20230101,20241231
-""",
-        'calendar_dates.txt': """
-service_id,date,exception_type
-D1,20251107,1
-""" # 祝日などの例外はここでは考慮しない
-    }
-
     try:
-        # stop_times.txt
-        df_st = pd.read_csv(io.StringIO(gtfs_data_content['stop_times.txt']), dtype={'trip_id': str, 'stop_id': str, 'stop_sequence': int})
+        # stop_times.txt: 時刻データ（重要）と出発時刻の秒変換
+        df_st = pd.read_csv('gtfs_data/stop_times.txt', dtype={'trip_id': str, 'stop_id': str, 'stop_sequence': int})
+        # arrival_time を departure_time の代わりに利用し、秒変換 (バス停での予測到着時刻の基準として利用)
         df_st['departure_sec'] = df_st['departure_time'].apply(time_to_seconds)
         df_st['arrival_sec'] = df_st['arrival_time'].apply(time_to_seconds)
 
-        # trips.txt
-        df_t = pd.read_csv(io.StringIO(gtfs_data_content['trips.txt']), dtype={'route_id': str, 'service_id': str, 'trip_id': str})
+        # trips.txt: トリップ情報
+        df_t = pd.read_csv('gtfs_data/trips.txt', dtype={'route_id': str, 'service_id': str, 'trip_id': str})
         
-        # stops.txt
-        df_s = pd.read_csv(io.StringIO(gtfs_data_content['stops.txt']), dtype={'stop_id': str})
+        # stops.txt: バス停名
+        df_s = pd.read_csv('gtfs_data/stops.txt', dtype={'stop_id': str})
         
         # routes.txt (路線情報)
-        df_r = pd.read_csv(io.StringIO(gtfs_data_content['routes.txt']), dtype={'route_id': str})
+        df_r = pd.read_csv('gtfs_data/routes.txt', dtype={'route_id': str})
+        # 新しい親ルートIDを抽出
         df_r['parent_route_id'] = df_r['route_id'].apply(extract_parent_route_id)
         
-        # calendar.txt
-        df_c = pd.read_csv(io.StringIO(gtfs_data_content['calendar.txt']), dtype={'service_id': str})
+        # calendar.txt: 運行曜日
+        df_c = pd.read_csv('gtfs_data/calendar.txt', dtype={'service_id': str})
         
-        # calendar_dates.txt
-        df_cd = pd.read_csv(io.StringIO(gtfs_data_content['calendar_dates.txt']), dtype={'service_id': str, 'date': str, 'exception_type': int})
-        
+        # calendar_dates.txt: 例外日
+        df_cd = pd.read_csv('gtfs_data/calendar_dates.txt', dtype={'service_id': str, 'date': str, 'exception_type': int})
+
         # --- 親IDとバス停名のマッピングを作成 ---
         df_s['parent_id'] = df_s['stop_id'].apply(extract_parent_id)
         # stop_nameをキーとして、その代表となるparent_idを格納
-        # 重複するstop_nameがある場合は、最初のparent_idを採用する
-        parent_id_map = df_s.drop_duplicates(subset=['stop_name']).set_index('stop_name')['parent_id'].to_dict()
+        parent_id_map = df_s.drop_duplicates(subset=['parent_id']).set_index('stop_name')['parent_id'].to_dict()
 
         # --- 路線グループとバス停名のマッピングを作成 ---
         df_route_stops = df_st[['trip_id', 'stop_id']].drop_duplicates()
         df_route_stops = df_route_stops.merge(df_t[['trip_id', 'route_id']], on='trip_id', how='left')
         
-        # parent_route_id を結合
+        # route_long_name の代わりに parent_route_id を結合
         df_route_stops = df_route_stops.merge(df_r[['route_id', 'parent_route_id']], on='route_id', how='left')
         df_route_stops = df_route_stops.merge(df_s[['stop_id', 'stop_name']], on='stop_id', how='left')
         
+        # マッピングに使用する列を 'parent_route_id' に変更
         df_final_mapping = df_route_stops[['parent_route_id', 'stop_name']].dropna().drop_duplicates()
 
         # 辞書 {親ルートID: [五十音順ソート済みバス停名リスト]} を作成
         route_stop_map = {}
+        # グループ化キーを 'parent_route_id' に変更
         for parent_route_id, group in df_final_mapping.groupby('parent_route_id'):
+            # 日本語の五十音順ソート
             sorted_stops = sorted(group['stop_name'].unique().tolist())
             route_stop_map[parent_route_id] = sorted_stops
 
         # 運行サービスの結合と始終点時刻の計算
+        # GTFSの24時間超え時刻（例: 25:00:00）を考慮して、trip_idごとの最小/最大 departure_sec を取得
         df_min_max_times = df_st.groupby('trip_id')['departure_sec'].agg(['min', 'max']).reset_index()
         df_min_max_times.rename(columns={'min': 'dep_sec', 'max': 'arr_sec'}, inplace=True)
 
@@ -161,13 +117,13 @@ D1,20251107,1
         GTFS['TRIP_BOUNDARIES'] = df_min_max_times
         GTFS['ROUTE_STOP_MAP'] = route_stop_map 
         GTFS['ROUTE_NAMES'] = sorted(route_stop_map.keys()) 
+        # stop_id -> stop_name のマッピング辞書もここで作成しておく
         GTFS['STOP_NAME_MAP'] = df_s.set_index('stop_id')['stop_name'].to_dict()
         
         print("GTFSデータのロードが完了しました。")
 
-    except Exception as e:
-        print(f"エラー: GTFSデータ処理中に予期せぬエラーが発生しました: {e}")
-        # エラー発生時は空のデータフレームで続行
+    except FileNotFoundError as e:
+        print(f"エラー: GTFSデータファイルが見つかりません。フォルダ構成を確認してください: {e}")
         return {}
 
 
