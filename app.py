@@ -476,11 +476,15 @@ def generate_schedule(stop_name):
 app = Flask(__name__)
 app.config ['TEMPLATES_AUTO_RELOAD'] = True
 
-# GTFSデータはメモリ内で定義済みのため、@app.before_first_request でロードします
-@app.before_first_request
-def setup_data():
-    """リクエストが来る前に一度だけGTFSデータをロードする"""
-    load_gtfs_data()
+# GTFSデータはメモリ内で定義済みのため、アプリケーション起動時にロードする
+# `@app.before_first_request` は Flask 2.3 で廃止されたため、直接ロードに変更
+load_gtfs_data() # アプリケーション起動時に一度だけGTFSデータをロード
+
+# 以下、デコレータを削除またはコメントアウト
+# @app.before_first_request
+# def setup_data():
+#     """リクエストが来る前に一度だけGTFSデータをロードする"""
+#     load_gtfs_data()
 
 @app.route('/', methods=['GET'])
 def index():
@@ -488,12 +492,12 @@ def index():
     route_names = GTFS.get('ROUTE_NAMES', [])
     route_stop_map = GTFS.get('ROUTE_STOP_MAP', {})
     
-    # route_stop_mapをJSON形式にシリアライズしてテンプレートに渡す
-    route_stop_map_json = json.dumps(route_stop_map, ensure_ascii=False)
+    # route_stop_map (辞書) をそのままテンプレートに渡す (Jinjaの|tojsonフィルタを使用)
+    # 以前の手動の json.dumps() は削除します
     
     return render_template('index.html', 
         route_names=route_names, 
-        route_stop_map_json=route_stop_map_json
+        route_stop_map=route_stop_map # 変数名を修正し辞書を直接渡す
     )
 
 @app.route('/<stop_name>', methods=['GET'])
