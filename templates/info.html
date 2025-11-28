@@ -17,93 +17,84 @@
         /* スマホ向けにラベルのスタイルを定義 */
         .mobile-label { color: #6b7280; font-weight: 500; font-size: 0.75rem; }
         .data-value { font-weight: 600; font-size: 0.875rem; }
-        .data-value.time { font-weight: 900; font-size: 1.5rem; } /* 時刻を特に大きく強調 */
-    </style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'bus-blue': '#1e40af',
-                    }
-                }
+        .data-value.time { font-weight: 900; font-size: 1.5rem; } /* 時刻は大きく */
+
+        /* グリッドレイアウトのレスポンシブ調整 */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* スマホ: 1列 */
+            gap: 0.5rem;
+            padding: 0.5rem;
+        }
+        @media (min-width: 640px) { /* sm以上: 5列 */
+            .schedule-grid {
+                grid-template-columns: 1.5fr 2fr 1.5fr 2.5fr 2.5fr; 
+                gap: 1rem;
+                padding: 0.75rem;
             }
         }
-    </script>
+        
+        /* スマホで非表示にするカラム */
+        @media (max-width: 639px) {
+            .mobile-hide {
+                display: none;
+            }
+        }
+        
+        /* スマホでラベルを非表示にする */
+        @media (min-width: 640px) {
+            .mobile-label {
+                display: none;
+            }
+        }
+
+    </style>
 </head>
 <body class="p-4 md:p-8">
-    <div class="max-w-6xl mx-auto">
+    <div class="container mx-auto max-w-4xl">
         <header class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ stop }} バスの運行情報</h1>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-indigo-700 mb-1">{{ stop_name }}</h1>
+            <p class="text-xl md:text-2xl font-semibold text-gray-700">運行状況</p>
+            <p class="text-sm text-gray-500 mt-2">現在時刻: {{ now_jst }}</p>
         </header>
- 
-        <div class="flex flex-col sm:flex-row justify-center sm:justify-between gap-3 mb-6 max-w-lg mx-auto">
-            <button onclick="window.location.reload();" 
-                    class="flex-1 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-150">
-                更新
-            </button>
-            
-            <a href="{{ url_for('index') }}" 
-               class="flex-1 text-center px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-150">
-                バス停選択に戻る
-            </a>
-        </div>
-
-
-
-
-
-        <main class="card bg-white p-4 md:p-6 rounded-xl border border-gray-100">
-            <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-3 rounded-md mb-6">
-                <p class="text-sm font-medium">{{ message }}</p>
+        
+        <main class="bg-white p-4 rounded-xl shadow-2xl">
+            <div class="schedule-header bg-gray-100 font-bold hidden sm:grid rounded-t-lg">
+                <div class="p-3 text-gray-700">時刻 (予測)</div>
+                <div class="p-3 text-gray-700">路線名 / 行先</div>
+                <div class="p-3 text-gray-700">定刻時刻</div>
+                <div class="p-3 text-gray-700">運行状況・予測</div>
+                <div class="p-3 text-gray-700">現在地情報</div>
             </div>
-            
-            {% if not data %}
-            <div class="text-center py-10 text-gray-500">
-                <p class="text-xl mb-2">本日の運行情報はありません。</p>
-                <p>現在時刻の30分前以降に出発予定の便がないか、GTFSリアルタイムデータが取得できませんでした。</p>
-            </div>
+
+            {% if not bus_schedule %}
+            <p class="text-center text-gray-500 p-8">このバス停からの運行予定はありません。</p>
             {% else %}
-            
-            <div class="space-y-4">
-                
-                <div class="hidden sm:grid sm:grid-cols-4 gap-4 px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 rounded-t-xl">
-                    <div class="w-1/12">定刻</div>
-                    <div class="w-3/12">行き先</div>
-                    <div class="w-2/12">現在地情報</div>
-                    <div class="w-6/12">運行状況・予測</div>
-                </div>
-
-                {% for row in data %}
-                <div class="card bg-white p-4 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-150">
-                    
-                    <div class="grid grid-cols-2 gap-y-4 sm:grid-cols-4 sm:gap-2">
+            <div class="schedule-body">
+                {% for row in bus_schedule %}
+                <div class="card border-b last:border-b-0 p-2 sm:p-0">
+                    <div class="schedule-grid items-center">
                         
-                        <div class="col-span-2 sm:col-span-1 flex flex-col justify-center border-b sm:border-none pb-2 sm:pb-0">
-                            <div class="mobile-label sm:hidden">定刻</div>
-                            <div class="data-value time text-gray-900 sm:text-sm sm:font-bold">{{ row[0] }}</div>
+                        <div class="col-span-1 flex flex-col justify-center text-center sm:text-left">
+                            <div class="mobile-label">予測時刻</div>
+                            <div class="data-value time text-indigo-600 sm:pl-3">{{ row[3] }}</div>
                         </div>
 
-                        <div class="col-span-2 sm:col-span-1 flex flex-col justify-center border-b sm:border-none pb-2 sm:pb-0">
-                            <div class="mobile-label sm:hidden">行き先</div>
-                            <div class="data-value text-gray-700 sm:text-sm sm:font-medium">{{ row[1] }}</div>
+                        <div class="col-span-1 flex flex-col justify-center">
+                            <div class="mobile-label">路線名 / 行先</div>
+                            <div class="data-value text-gray-800">{{ row[0] }}</div>
+                            <div class="data-value text-xs text-gray-500">{{ row[1] }}</div>
                         </div>
                         
-                        <div class="col-span-1 flex flex-col justify-start">
-                            <div class="mobile-label">現在地情報</div>
-                            <div class="data-value text-gray-600 text-xs sm:text-sm">
-                                {% if row[2] == '-' %}
-                                -
-                                {% else %}
-                                {{ row[2] }}を通過しました
-                                {% endif %}
-                            </div>
+                        <div class="col-span-1 flex flex-col justify-center">
+                            <div class="mobile-label">定刻時刻</div>
+                            <div class="data-value text-gray-600">{{ row[2] }}</div>
                         </div>
-                        
+
                         <div class="col-span-1 flex flex-col justify-start">
                             <div class="mobile-label">運行状況・予測</div>
                             <div class="data-value text-xs sm:text-sm status-cell">
-                                {% set info_text = row[3] %}
+                                {% set info_text = row[5] %}
                                 {% if "到着見込み" in info_text %}
                                     <span class="status-arrival">{{ info_text }}</span>
                                 {% elif "通過・到着済み" in info_text or "運行終了" in info_text %}
@@ -115,6 +106,13 @@
                                 {% endif %}
                             </div>
                         </div>
+
+                        <div class="col-span-1 flex flex-col justify-start">
+                            <div class="mobile-label">現在地情報</div>
+                            <div class="data-value text-xs sm:text-sm text-blue-500">
+                                {{ row[6] }}
+                            </div>
+                        </div>
                         
                     </div>
                 </div>
@@ -123,6 +121,13 @@
             {% endif %}
         </main>
         
+        <div class="mt-8 text-center">
+            <a href="{{ url_for('download_schedule_csv', stop_name=stop_url) }}" class="inline-block py-2 px-6 bg-green-500 text-white font-bold rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 transition duration-150 ease-in-out" download>
+                CSVとしてダウンロード (リアルタイムデータ確認用)
+            </a>
+        </div>
+
+
         <footer class="mt-8 text-center text-gray-500 text-xs">
             <a href="{{ url_for('index') }}" class="text-blue-500 hover:text-blue-700 font-medium">他のバス停に戻る</a>
             <p>データ提供: 秋田市GTFSデータ、GTFSリアルタイムデータ (非公式/テスト用)</p>
