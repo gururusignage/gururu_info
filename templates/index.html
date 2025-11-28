@@ -15,34 +15,17 @@
 <body class="p-4 md:p-8">
     <div class="container mx-auto">
         <h1 class="text-3xl font-extrabold text-center text-indigo-600 mb-8">
-            中心市街地循環バスぐるる<br>秋田市マイタウン・バス<br>運行状況（試用版）
+            バス運行状況リアルタイム表示
         </h1>
 
-        {% if error_message %}
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-8 shadow-md" role="alert">
-            <strong class="font-bold block text-lg mb-1">データロード失敗🚨</strong>
-            <span class="block sm:inline">静的GTFSファイルが見つからないか、読み込めませんでした。</span>
-            <p class="mt-2 text-sm">デプロイ環境で以下の**2点**を特に確認してください:</p>
-            <ul class="list-disc list-inside mt-1 text-sm pl-4">
-                <li>`gtfs_data`フォルダが、`app.py`と同じ階層にあるか。</li>
-                <li>`gtfs_data`内に必要なファイル (`stop_times.txt`, `trips.txt`など) が存在するか。</li>
-            </ul>
-            <p class="mt-3 text-xs font-mono break-all bg-red-50 p-2 rounded">
-                **システムエラー詳細:** {{ error_message }}
-            </p>
-        </div>
-        {% endif %}
         <div class="bg-white p-6 rounded-xl shadow-2xl mb-8">
             <h2 class="text-xl font-semibold mb-4 text-gray-700">① 路線グループを選択してください</h2>
-            <select id="route-select" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out" {% if not route_names %}disabled{% endif %}>
+            <select id="route-select" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out">
                 <option value="" disabled selected>--- 路線を選択 ---</option>
                 {% for route_name in route_names %}
                     <option value="{{ route_name }}">{{ route_name }}</option>
                 {% endfor %}
             </select>
-            {% if not route_names and not error_message %}
-            <p class="text-sm text-red-500 mt-2">データが読み込めていないため、選択できません。</p>
-            {% endif %}
         </div>
 
         <div class="bg-white p-6 rounded-xl shadow-2xl">
@@ -59,8 +42,7 @@
 
     <script>
         // バックエンドから渡された路線-バス停マッピング
-        // tojson | safe フィルターで安全にJSONを埋め込みます
-        const routeStopMap = JSON.parse('{{ route_stop_map | tojson | safe }}');
+        const routeStopMap = JSON.parse('{{ route_stop_map | tojson }}');
         
         const routeSelect = document.getElementById('route-select');
         const stopSelect = document.getElementById('stop-select');
