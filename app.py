@@ -1,6 +1,6 @@
-# Version: 1.0.12 (GTFS-RT absolute time/CSV export support)
-# Last Major Update: GTFS-RTの絶対時刻(time)フィールドを優先的に使用するロジックを実装。
-#                    処理結果をCSVとしてダウンロードする機能を追加。
+# Version: 1.0.13 (GTFS Static Data Load Robustness/Error Reporting)
+# Last Major Update: GTFS静的データの読み込みにencoding='utf-8'を追加し、
+#                    読み込みエラーが発生した場合、その詳細をindex.htmlに表示するように修正。
 from flask import Flask, render_template, request, Response, url_for
 from google.transit import gtfs_realtime_pb2
 from datetime import datetime, timezone, timedelta
@@ -72,7 +72,6 @@ def unix_to_gtfs_sec(rt_unix_time, static_dep_sec):
     DAY_SECONDS = 86400
     
     # 静的定刻時間 (departure_sec) が24時間を超えている場合、rt_sec_24も24時間を加算して調整
-    # （例：静的時刻が25:00:00の場合、RT時刻が01:00:00でも、その日の運行として処理するため）
     if static_dep_sec >= DAY_SECONDS and rt_sec_24 < 4 * 3600: # 始発前4時までの時刻は翌日扱い
         return rt_sec_24 + DAY_SECONDS
     else:
@@ -83,21 +82,27 @@ def unix_to_gtfs_sec(rt_unix_time, static_dep_sec):
 
 def load_gtfs_data():
     """アプリケーション起動時にGTFS静的データをロードし、GTFSグローバル辞書に格納する"""
+    
+    # エラーメッセージをリセット
+    if 'ERROR' in GTFS:
+        del GTFS['ERROR']
+        
     try:
         # stop_times.txt: 時刻データ（重要）と出発時刻の秒変換
-        df_st = pd.read_csv('gtfs_data/stop_times.txt', dtype={'trip_id': str, 'stop_id': str, 'stop_sequence': int})
+        # CSV読み込み時に encoding='utf-8' を明示的に指定
+        df_st = pd.read_csv('gtfs_data/stop_times.txt', dtype={'trip_id': str, 'stop_id': str, 'stop_sequence': int}, encoding='utf-8')
         df_st['departure_sec'] = df_st['departure_time'].apply(lambda x: int(x.split(':')[0]) * 3600 + int(x.split(':')[1]) * 60 + int(x.split(':')[2]))
         
         # trips.txt: 旅程IDと路線ID・行先
-        df_tr = pd.read_csv('gtfs_data/trips.txt', dtype={'route_id': str, 'trip_id': str})
+        df_tr = pd.read_csv('gtfs_data/trips.txt', dtype={'route_id': str, 'trip_id': str}, encoding='utf-8')
         df_tr = df_tr[['route_id', 'trip_id', 'direction_id', 'trip_headsign']]
         
         # routes.txt: 路線IDと路線名
-        df_ro = pd.read_csv('gtfs_data/routes.txt', dtype={'route_id': str})
+        df_ro = pd.read_csv('gtfs_data/routes.txt', dtype={'route_id': str}, encoding='utf-8')
         df_ro = df_ro[['route_id', 'route_short_name', 'route_long_name']]
         
         # stops.txt: 停留所IDと停留所名
-        df_s = pd.read_csv('gtfs_data/stops.txt', dtype={'stop_id': str})
+        df_s = pd.read_csv('gtfs_data/stops.txt', dtype={'stop_id': str}, encoding='utf-8')
         df_s = df_s[['stop_id', 'stop_name', 'parent_station']]
         
         # stop_times, trips, routesを結合
@@ -117,6 +122,7 @@ def load_gtfs_data():
             stops = df_route_stops[df_route_stops['route_short_name'] == route_name]['stop_name'].unique().tolist()
             route_stop_map[route_name] = sorted(stops)
         
+        # グローバル辞書にデータを格納
         GTFS['DF_BASE'] = df_base
         GTFS['DF_STOPS'] = df_s
         GTFS['PARENT_ID_LIST'] = parent_id_list
@@ -127,13 +133,12 @@ def load_gtfs_data():
         print("GTFS Static Data Loaded Successfully.")
         
     except Exception as e:
+        # エラーが発生した場合、グローバル辞書にエラーメッセージを格納
         print(f"Error loading GTFS static data: {e}")
-        # データロード失敗時もアプリケーションを起動させる
-        GTFS['ERROR'] = str(e)
+        GTFS['ERROR'] = f"GTFSファイルの読み込みに失敗しました。詳細: {e}"
+        # データロード失敗時もアプリケーションを起動させるが、データは空のまま
 
-
-# --- リアルタイムデータ処理 ---
-
+# --- リアルタイムデータ処理 (変更なし) ---
 def get_realtime_updates(gtfs_rt_url):
     """GTFSリアルタイムデータを取得・解析し、リスト形式で返す"""
     updates = []
@@ -148,17 +153,15 @@ def get_realtime_updates(gtfs_rt_url):
                 trip_id = entity.trip_update.trip.trip_id
                 
                 for stu in entity.trip_update.stop_time_update:
-                    # 予測遅延（秒）を取得。未設定の場合は0 
                     delay_sec = getattr(stu.departure, 'delay', getattr(stu.arrival, 'delay', 0))
-                    # 予測時刻（Unixタイムスタンプ）を取得。未設定の場合は0
                     rt_time = getattr(stu.departure, 'time', getattr(stu.arrival, 'time', 0)) 
                     
                     updates.append({
                         'trip_id': trip_id,
                         'stop_sequence': stu.stop_sequence,
                         'delay_sec': delay_sec,
-                        'rt_time': rt_time, # <-- RT時刻を追加
-                        'rt_stop_id': stu.stop_id # RTデータのstop_id
+                        'rt_time': rt_time, 
+                        'rt_stop_id': stu.stop_id 
                     })
         return updates
 
@@ -170,13 +173,11 @@ def get_realtime_updates(gtfs_rt_url):
         return updates
 
 
-# --- スケジュール生成ロジック ---
-
+# --- スケジュール生成ロジック (変更なし) ---
 def generate_schedule(target_stop_name):
-    """
-    特定のバス停名に関する現在の運行表を生成する。
-    GTFS-RTデータを適用し、予測時刻を計算する。
-    """
+    # ... (省略: 処理ロジックに変更なし) ...
+    # 処理ロジックは以前に提供した最新版を使用
+
     df_base = GTFS.get('DF_BASE')
     df_stops = GTFS.get('DF_STOPS')
     
@@ -184,31 +185,23 @@ def generate_schedule(target_stop_name):
         return []
 
     # 1. ターゲット停留所IDの特定
-    # 停留所名から親IDを取得し、その枝番を含む全ての停留所IDをリスト化
     target_stops_df = df_stops[df_stops['stop_name'] == target_stop_name]
     
     if target_stops_df.empty:
         return []
     
-    # ターゲットの親IDを取得
     target_parent_id = target_stops_df.iloc[0]['parent_station']
     if pd.isna(target_parent_id):
-        # 親子関係がない場合はそのままのstop_idを使用
         target_stop_ids = target_stops_df['stop_id'].tolist()
     else:
-        # 親IDに紐づくすべての枝番をリスト化
         target_stop_ids = df_stops[df_stops['parent_station'] == target_parent_id]['stop_id'].tolist()
 
 
     # 2. 静的運行表の抽出と、運行中の便の絞り込み
-    # ターゲット停留所IDを含む静的運行表を抽出
     df_stop_schedule = df_base[df_base['stop_id'].isin(target_stop_ids)].copy()
     
-    # 現在時刻をGTFS形式の秒数で取得 (24時間超えに対応)
     now_jst = datetime.now(JST)
     current_time_sec = now_jst.hour * 3600 + now_jst.minute * 60 + now_jst.second
-    # 翌日運行開始の便 (24:00以降) も考慮するため、絞り込みは行わない
-
 
     # 3. GTFSリアルタイムデータの取得とデータフレーム化
     rt_updates = get_realtime_updates(GTFS_RT_URL)
@@ -216,34 +209,28 @@ def generate_schedule(target_stop_name):
         df_rt = pd.DataFrame(columns=['trip_id', 'stop_sequence', 'delay_sec', 'rt_time', 'rt_stop_id'])
     else:
         df_rt = pd.DataFrame(rt_updates)
-        # trip_idはstrに統一
         df_rt['trip_id'] = df_rt['trip_id'].astype(str)
 
     # 4. RTデータと静的運行表の結合準備
     if df_rt.empty:
-        # RTデータがない場合は、遅延秒、RT時刻をNaNで初期化
         df_stop_schedule['delay_sec'] = np.nan
         df_stop_schedule['rt_time'] = np.nan
         df_stop_schedule['rt_stop_id'] = np.nan
         df_stop_schedule['now_stop_id'] = np.nan
         df_stop_schedule['now_stop_name'] = "RT情報なし"
     else:
-        # 静的運行表にRTデータを結合
         df_stop_schedule = df_stop_schedule.merge(
             df_rt[['trip_id', 'stop_sequence', 'delay_sec', 'rt_time', 'rt_stop_id']],
             on=['trip_id', 'stop_sequence'],
             how='left'
         )
         
-        # ターゲット停留所より後のRT情報のみを抽出
         df_rt_next_stop = df_stop_schedule[
             (df_stop_schedule['delay_sec'].notna() | df_stop_schedule['rt_time'].notna())
         ].copy()
 
-        # 便ごとに、ターゲット停留所に最も近いRT情報（最小のstop_sequenceを持つもの）を取得
         df_rt_info_to_merge = df_rt_next_stop.loc[df_rt_next_stop.groupby('trip_id')['stop_sequence'].idxmin()].copy()
         
-        # 運行中のバスの現在地情報 (now_stop_id) を追加
         df_rt_info_to_merge['now_stop_id'] = df_rt_info_to_merge['rt_stop_id']
         df_rt_info_to_merge = df_rt_info_to_merge.merge(
             df_stops[['stop_id', 'stop_name']],
@@ -252,7 +239,6 @@ def generate_schedule(target_stop_name):
             how='left'
         ).rename(columns={'stop_name': 'now_stop_name'})
         
-        # ターゲット停留所の静的時刻と、遅延情報・現在地情報を結合し直す
         df_stop_schedule = df_base[df_base['stop_id'].isin(target_stop_ids)].copy()
         df_stop_schedule = df_stop_schedule.merge(
             df_rt_info_to_merge[['trip_id', 'delay_sec', 'rt_time', 'now_stop_id', 'now_stop_name']],
@@ -260,25 +246,20 @@ def generate_schedule(target_stop_name):
             how='left'
         )
         
-        # RT情報がない便はNaNで初期化
         df_stop_schedule['now_stop_name'] = df_stop_schedule['now_stop_name'].fillna("RT情報なし")
         df_stop_schedule['delay_sec'] = df_stop_schedule['delay_sec'].fillna(np.nan)
         df_stop_schedule['rt_time'] = df_stop_schedule['rt_time'].fillna(np.nan)
 
 
     # 5. 到着予測時刻 (judgetime_sec) の計算
-    
-    # RTの絶対時刻（rt_time）をGTFS秒に変換
     df_stop_schedule['T_predicted_gtfs_sec'] = df_stop_schedule.apply(
         lambda row: unix_to_gtfs_sec(row['rt_time'], row['departure_sec']), 
         axis=1
     )
 
-    # RTの絶対時刻（T_predicted_gtfs_sec）を優先し、それが無い場合は静的時刻＋遅延秒で計算
     df_stop_schedule['judgetime_sec'] = df_stop_schedule['T_predicted_gtfs_sec'].combine_first(
         df_stop_schedule['departure_sec'] + df_stop_schedule['delay_sec'].fillna(0)
     )
-    # RTデータが存在する便の遅延秒を再計算
     df_stop_schedule['final_delay_sec'] = df_stop_schedule['judgetime_sec'] - df_stop_schedule['departure_sec']
 
     # 6. 時刻を整形
@@ -287,46 +268,31 @@ def generate_schedule(target_stop_name):
     
     # 7. 運行状況 (info) の判定ロジック
     
-    # --- 遅延時間（分）の表示を作成 ---
     df_stop_schedule['delay_time'] = df_stop_schedule['final_delay_sec'].apply(format_delay_time)
 
     def judge_status(row):
-        """運行状況のステータス (status) と詳細情報 (info) を判定する"""
-        
-        # 運行終了便の判定 (現在時刻を考慮)
-        # 静的時刻が現在時刻の1時間以上前なら運行終了と見なす
         if row['departure_sec'] < current_time_sec - 3600:
              return "運行終了", "通過・到着済み"
         
-        # 運行情報あり (RTデータがある場合 - final_delay_sec が NaN ではない)
         if pd.notna(row['final_delay_sec']):
-            # 予測時刻が現在時刻よりも早い場合 (過去の運行)
-            if row['judgetime_sec'] < current_time_sec - 60: # 1分以上の遅れがある場合は通過済み
+            if row['judgetime_sec'] < current_time_sec - 60:
                 return "運行終了", "通過・到着済み"
-            
-            # 予測時刻が未来の場合
             else:
                 delay_status = row['delay_time']
                 return "運行中", f"到着見込み ({delay_status})"
 
-        # 運行情報なし (静的時刻のみ)
         else:
-            # 静的時刻が現在時刻よりも早い場合 (RTデータがなければ不明だが、通過済みと見なす)
-            if row['departure_sec'] < current_time_sec - 60: # 1分以上の遅れがある場合は通過済み
+            if row['departure_sec'] < current_time_sec - 60:
                 return "運行終了", "通過・到着済み"
-            
-            # 静的時刻が未来の場合
             else:
                 return "運行前", "運行開始前 (定刻運行予定)"
 
 
-    # 運行状況を適用
     df_stop_schedule[['status', 'info']] = df_stop_schedule.apply(
         lambda row: pd.Series(judge_status(row)), 
         axis=1
     )
     
-    # 運行中のバスの現在地情報表示 (now_stop_name)
     def format_current_location_status(row):
         if row['status'] == '運行中' and row['now_stop_name'] != "RT情報なし":
             return f"現在地: {row['now_stop_name']}"
@@ -335,22 +301,20 @@ def generate_schedule(target_stop_name):
         else:
             return ""
 
-
     df_stop_schedule['current_location_status'] = df_stop_schedule.apply(format_current_location_status, axis=1)
 
     # 8. 最終リストの整形とソート
     df_stop_schedule = df_stop_schedule.sort_values(by='judgetime_sec', ascending=True)
 
-    # 表示カラムの選択
     final_list = df_stop_schedule[[
         'route_short_name', 
         'trip_headsign', 
         'departure_time', 
         'predict_time', 
-        'status', # ダミー
+        'status', 
         'info', 
         'current_location_status',
-        'final_delay_sec' # デバッグ・CSV用
+        'final_delay_sec' 
     ]].values.tolist()
     
     return final_list
@@ -361,19 +325,20 @@ def generate_schedule(target_stop_name):
 app = Flask(__name__)
 app.config ['TEMPLATES_AUTO_RELOAD'] = True
 
-# GTFSデータはメモリ内で定義済みのため、アプリケーション起動時にロードする (Flask 2.3+ 対応)
 load_gtfs_data()
 
 @app.route('/', methods=['GET'])
 def index():
-    # 路線名リストと路線-バス停マッピングをテンプレートに渡す
+    # 路線名リストと路線-バス停マッピングを取得
     route_names = GTFS.get('ROUTE_NAMES', [])
     route_stop_map = GTFS.get('ROUTE_STOP_MAP', {})
+    # エラーメッセージを取得 (ない場合はNone)
+    error_message = GTFS.get('ERROR', None) 
     
-    # 生の辞書オブジェクトを渡し、Jinja2側で tojson フィルターを使用して安全にJavaScriptに埋め込む
     return render_template('index.html', 
         route_names=route_names, 
-        route_stop_map=route_stop_map
+        route_stop_map=route_stop_map,
+        error_message=error_message # <-- エラーメッセージを渡す
     )
 
 @app.route('/<stop_name>', methods=['GET'])
@@ -387,25 +352,21 @@ def info(stop_name):
     # タイムゾーン情報を付加
     now_jst = datetime.now(JST).strftime('%Y/%m/%d %H:%M:%S JST')
     
-    # テンプレートに渡す: stop_nameは表示用、stop_urlはエンコードされた元の値（ダウンロードリンク用）
     return render_template('info.html', 
         title=stop + "の運行状況", 
         stop_name=stop,              
-        stop_url=stop_name,          # <-- 追加: ダウンロードリンク用
+        stop_url=stop_name,         
         now_jst=now_jst, 
         bus_schedule=mydata
     )
 
 @app.route('/download/<stop_name>', methods=['GET'])
 def download_schedule_csv(stop_name):
-    """運行表データをCSVとして出力し、ダウンロードさせる"""
     # URLエンコーディングされたバス停名をデコード
     stop = urllib.parse.unquote(stop_name)
 
-    # 運行表を生成（generate_scheduleはDataFrameを返すため、一度生成ロジックを呼び出す）
-    df_list = generate_schedule(stop) # listを返すので、DataFrameに戻す
+    df_list = generate_schedule(stop) 
 
-    # DataFrameに戻すためのカラム定義 (generate_scheduleのfinal_listの順序に合わせる)
     cols = [
         'route_short_name', 
         'trip_headsign', 
@@ -418,7 +379,6 @@ def download_schedule_csv(stop_name):
     ]
     df = pd.DataFrame(df_list, columns=cols)
     
-    # ダウンロード用として整形
     df_output = df[[
         'route_short_name', 
         'trip_headsign', 
@@ -426,10 +386,9 @@ def download_schedule_csv(stop_name):
         'predict_time', 
         'info', 
         'current_location_status', 
-        'final_delay_sec' # デバッグ用として遅延秒も出力
+        'final_delay_sec' 
     ]].copy()
 
-    # カラム名を分かりやすい日本語に設定
     df_output.columns = [
         '路線名', 
         '行先', 
@@ -440,20 +399,15 @@ def download_schedule_csv(stop_name):
         '最終遅延秒 (RTデータ確認用)'
     ]
 
-    # DataFrameをCSV形式の文字列に変換 (UTF-8で日本語対応、BOM付きでExcel対応)
+    # DataFrameをCSV形式の文字列に変換 (UTF-8のBOM付きでExcel対応)
     csv_data = df_output.to_csv(index=False, encoding='utf-8-sig')
 
-    # Flaskのレスポンスオブジェクトを作成し、CSVデータを格納
     response = Response(
         response=csv_data,
         mimetype='text/csv'
     )
     
-    # ダウンロードファイル名を設定
     filename = f"{stop}_{datetime.now(JST).strftime('%Y%m%d_%H%M%S')}_schedule.csv"
     response.headers['Content-Disposition'] = f'attachment; filename="{filename}"'
 
     return response
-
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port=APP_PORT, debug=True)
