@@ -152,37 +152,74 @@ def get_current_service_ids(now_jst):
 def get_realtime_updates():
     """GTFS-RTデータを取得し、DataFrameとして返す"""
     MAX_RETRIES = 3
+    
     # 疑似GTFS-RTデータ（実際のAPI呼び出しの代わり）
     # tripA01 は 200秒遅延しており、次の停車駅は S-10_01 (sequence 3) である、と仮定
     # tripA02 は 60秒早着しており、次の停車駅は S-05 (sequence 2) である、と仮定
-    dummy_rt_data = [
-        {'trip_id': 'tripA01', 'stop_sequence': 3, 'delay_sec': 200, 'rt_stop_id': 'S-10_01'},
-        {'trip_id': 'tripA02', 'stop_sequence': 2, 'delay_sec': -60, 'rt_stop_id': 'S-05'},
-        # S-15_01 (sequence 4) は RT情報がないため、現在地は S-10_01 (sequence 3) の通過と推定される
-        # S-05 (sequence 2) は RT情報がないため、現在地は S-01 (sequence 1) の通過と推定される
-    ]
+    # ----------------------------------------------------
+    # dummy_rt_data = [
+    #     {'trip_id': 'tripA01', 'stop_sequence': 3, 'delay_sec': 200, 'rt_stop_id': 'S-10_01'},
+    #     {'trip_id': 'tripA02', 'stop_sequence': 2, 'delay_sec': -60, 'rt_stop_id': 'S-05'},
+    #     # S-15_01 (sequence 4) は RT情報がないため、現在地は S-10_01 (sequence 3) の通過と推定される
+    #     # S-05 (sequence 2) は RT情報がないため、現在地は S-01 (sequence 1) の通過と推定される
+    # ]
     
-    df_rt_all = pd.DataFrame(dummy_rt_data)
+    # df_rt_all = pd.DataFrame(dummy_rt_data)
+    # return df_rt_all
+    # ----------------------------------------------------
     
-    # 実際のAPI呼び出しロジック（コメントアウト）
-    # for attempt in range(MAX_RETRIES):
-    #     try:
-    #         req = urllib.request.Request(GTFS_RT_URL, headers={'User-Agent': 'Mozilla/5.0'})
-    #         with urllib.request.urlopen(req, timeout=5) as res:
-    #             feed = gtfs_realtime_pb2.FeedMessage()
-    #             feed.ParseFromString(res.read())
+    # 実際のAPI呼び出しロジック
+    for attempt in range(MAX_RETRIES):
+        try:
+            req = urllib.request.Request(GTFS_RT_URL, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, timeout=5) as res:
+                feed = gtfs_realtime_pb2.FeedMessage()
+                feed.ParseFromString(res.read())
 
-    #             updates = []
-    #             for entity in feed.entity:
-    #                 # ... (省略: GTFS-RTのパースロジック)
-    #                 
-    #             return pd.DataFrame(updates)
+                updates = []
+                for entity in feed.entity:
+                    # TripUpdateエンティティのみを処理
+                    if entity.HasField('trip_update'):
+                        tu = entity.trip_update
+                        trip_id = tu.trip.trip_id
 
-    #     except Exception as e:
-    #         # ... (省略: エラー処理とリトライ)
-    #         return pd.DataFrame()
+                        # スケジュール変更情報（stop_time_update）をチェック
+                        for stu in tu.stop_time_update:
+                            # 遅延情報（departure_delay）があるか確認
+                            if stu.HasField('departure') and stu.departure.HasField('delay'):
+                                updates.append({
+                                    'trip_id': trip_id,
+                                    'stop_sequence': stu.stop_sequence,
+                                    # GTFS-RTの遅延情報（秒）をそのまま利用
+                                    'delay_sec': stu.departure.delay, 
+                                    # RTデータが提供された停留所ID
+                                    'rt_stop_id': stu.stop_id
+                                })
+                            # 予測到着時刻ベースの場合 (ここでは出発遅延を優先)
+                            # elif stu.HasField('arrival') and stu.arrival.HasField('delay'):
+                            #     updates.append({
+                            #         'trip_id': trip_id,
+                            #         'stop_sequence': stu.stop_sequence,
+                            #         'delay_sec': stu.arrival.delay,
+                            #         'rt_stop_id': stu.stop_id
+                            #     })
 
-    return df_rt_all
+                        # GTFS-RTの仕様上、一つのTripUpdateエンティティに複数の
+                        # stop_time_update（今後の停車駅ごとの予測）が含まれるため、
+                        # 全てをリストに追加し、後で generate_schedule で最小シーケンスのものを抽出します。
+                        
+                return pd.DataFrame(updates)
+
+        except urllib.error.URLError as e:
+            print(f"GTFS-RTデータ取得エラー (URLまたはタイムアウト): {e} (試行 {attempt + 1}/{MAX_RETRIES})")
+            slp(2) # 2秒待機してリトライ
+        except Exception as e:
+            print(f"GTFS-RTデータパースエラーまたはその他エラー: {e} (試行 {attempt + 1}/{MAX_RETRIES})")
+            slp(2) # 2秒待機してリトライ
+
+    # 全てのリトライが失敗した場合
+    print(f"GTFS-RTデータの取得に失敗しました (URL: {GTFS_RT_URL})。空のDataFrameを返します。")
+    return pd.DataFrame()
 
 
 def generate_schedule(stop_name):
