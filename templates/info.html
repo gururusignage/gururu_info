@@ -13,11 +13,6 @@
         .status-na { color: #9ca3af; } /* Gray */
         .status-before { color: #f97316; } /* Orange */
         .card { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); }
-        
-        /* スマホ向けにラベルのスタイルを定義 */
-        .mobile-label { color: #6b7280; font-weight: 500; font-size: 0.75rem; }
-        .data-value { font-weight: 600; font-size: 0.875rem; }
-        .data-value.time { font-weight: 900; font-size: 1.5rem; } /* 時刻を特に大きく強調 */
     </style>
     <script>
         tailwind.config = {
@@ -35,6 +30,7 @@
     <div class="max-w-6xl mx-auto">
         <header class="text-center mb-8">
             <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ stop }} バスの運行情報</h1>
+            <p class="text-lg text-bus-blue font-semibold">{{ title }}</p>
         </header>
 
         <main class="card bg-white p-4 md:p-6 rounded-xl border border-gray-100">
@@ -48,45 +44,25 @@
                 <p>現在時刻の30分前以降に出発予定の便がないか、GTFSリアルタイムデータが取得できませんでした。</p>
             </div>
             {% else %}
-            
-            <div class="space-y-4">
-                
-                <div class="hidden sm:grid sm:grid-cols-4 gap-4 px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 rounded-t-xl">
-                    <div class="w-1/12">定刻</div>
-                    <div class="w-3/12">行き先</div>
-                    <div class="w-2/12">現在地情報</div>
-                    <div class="w-6/12">運行状況・予測</div>
-                </div>
-
-                {% for row in data %}
-                <div class="card bg-white p-4 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-150">
-                    
-                    <div class="grid grid-cols-2 gap-y-4 sm:grid-cols-4 sm:gap-2">
-                        
-                        <div class="col-span-2 sm:col-span-1 flex flex-col justify-center border-b sm:border-none pb-2 sm:pb-0">
-                            <div class="mobile-label sm:hidden">定刻</div>
-                            <div class="data-value time text-gray-900 sm:text-sm sm:font-bold">{{ row[0] }}</div>
-                        </div>
-
-                        <div class="col-span-2 sm:col-span-1 flex flex-col justify-center border-b sm:border-none pb-2 sm:pb-0">
-                            <div class="mobile-label sm:hidden">行き先</div>
-                            <div class="data-value text-gray-700 sm:text-sm sm:font-medium">{{ row[1] }}</div>
-                        </div>
-                        
-                        <div class="col-span-1 flex flex-col justify-start">
-                            <div class="mobile-label">現在地情報</div>
-                            <div class="data-value text-gray-600 text-xs sm:text-sm">
-                                {% if row[2] == '-' %}
-                                -
-                                {% else %}
-                                {{ row[2] }}を通過しました
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="col-span-1 flex flex-col justify-start">
-                            <div class="mobile-label">運行状況・予測</div>
-                            <div class="data-value text-xs sm:text-sm status-cell">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/12">定刻</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-3/12">行き先</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-2/12">現在地情報</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-6/12">運行状況・予測</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for row in data %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-3 py-3 whitespace-nowrap text-sm font-bold text-gray-900">{{ row[0] }}</td>
+                            <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700">{{ row[1] }}</td>
+                            <td class="px-3 py-3 whitespace-wrap text-sm text-gray-600">
+                                {{ row[2] }}
+                            </td>
+                            <td class="px-3 py-3 whitespace-wrap text-sm status-cell">
                                 {% set info_text = row[3] %}
                                 {% if "到着見込み" in info_text %}
                                     <span class="status-arrival">{{ info_text }}</span>
@@ -97,12 +73,11 @@
                                 {% else %}
                                     <span class="status-na">{{ info_text }}</span>
                                 {% endif %}
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             {% endif %}
         </main>
