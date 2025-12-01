@@ -156,26 +156,29 @@ def get_realtime_updates():
         try:
             req = urllib.request.Request(GTFS_RT_URL, headers={'User-Agent': 'Mozilla/5.0'})
             with urllib.request.urlopen(req, timeout=5) as res:
+                
+                # HTTPステータスコードをチェック (通常は200)
+                if res.getcode() != 200:
+                    # 明示的にエラーを発生させることで、HTTPErrorブロックに捕捉させる
+                    raise urllib.error.HTTPError(GTFS_RT_URL, res.getcode(), f"HTTPエラーコード: {res.getcode()}", res.info(), None)
+
                 feed = gtfs_realtime_pb2.FeedMessage()
                 feed.ParseFromString(res.read())
 
                 updates = []
                 for entity in feed.entity:
-                    # TripUpdateエンティティのみを処理
+                    # ... (既存のパースロジックは省略せずに残す) ...
                     if entity.HasField('trip_update'):
                         tu = entity.trip_update
                         trip_id = tu.trip.trip_id
                         
-                        # stop_time_update のリストから情報を取得
                         for stu in tu.stop_time_update:
                             delay = 0
-                            # 遅延情報を取得（到着または出発のいずれか）
                             if stu.HasField('departure') and stu.departure.HasField('delay'):
                                 delay = stu.departure.delay
                             elif stu.HasField('arrival') and stu.arrival.HasField('delay'):
                                 delay = stu.arrival.delay
                             
-                            # 少なくとも遅延情報か、次の停車駅の情報がある場合のみ記録
                             if delay != 0 or stu.HasField('stop_id'):
                                 updates.append({
                                     'trip_id': trip_id,
@@ -184,20 +187,26 @@ def get_realtime_updates():
                                     'rt_stop_id': stu.stop_id
                                 })
                 
-                # データフレーム化
                 if updates:
                     return pd.DataFrame(updates)
                 else:
-                    # RTデータは取得できたが、更新情報(updates)が空の場合
                     return pd.DataFrame(columns=['trip_id', 'stop_sequence', 'delay_sec', 'rt_stop_id'])
 
+        except urllib.error.HTTPError as e:
+            # HTTPステータスコードエラー (403, 500など)
+            print(f"GTFS-RT取得エラー (Attempt {attempt+1}): [HTTP ERROR] コード: {e.code}, 理由: {e.reason}")
+            slp(1)
+        except urllib.error.URLError as e:
+            # URLアクセスエラー (接続失敗、SSLエラー、タイムアウトなど)
+            print(f"GTFS-RT取得エラー (Attempt {attempt+1}): [URL/CONNECTION ERROR] 理由: {e.reason}")
+            slp(1)
         except Exception as e:
-            print(f"GTFS-RT取得エラー (Attempt {attempt+1}): {e}")
-            slp(1) # リトライ前に待機
+            # その他のエラー（パースエラーなど）
+            print(f"GTFS-RT取得エラー (Attempt {attempt+1}): [OTHER ERROR] 詳細: {e}")
+            slp(1)
             
     print("GTFS-RTデータの取得に失敗しました。空のDataFrameを返します。")
     return pd.DataFrame()
-
 
 def generate_schedule(stop_name):
     """指定されたバス停（親ID）のリアルタイム運行表を生成する"""
