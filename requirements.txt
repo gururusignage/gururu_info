@@ -3,4 +3,5 @@ Flask
 gtfs-realtime-bindings
 pandas
 numpy
+requests
 gunicorn # Webサーバー (GAEデプロイ時に推奨)
