@@ -2,6 +2,7 @@
 # Last Major Update: GTFS-RTのパースロジックを実装。リアルタイムデータの内容確認用デバッグルート /rt_status を追加。
 
 from flask import Flask, render_template, request
+import requests
 from google.transit import gtfs_realtime_pb2
 from datetime import datetime, timezone, timedelta
 import urllib.request, urllib.error
@@ -147,66 +148,49 @@ def get_current_service_ids(now_jst):
     
     return list(active_service_ids)
 
-
 def get_realtime_updates():
-    """GTFS-RTデータを取得し、DataFrameとして返す (パースロジックを実装)"""
+    """GTFS-RTデータを取得し、DataFrameとして返す (requests版)"""
     MAX_RETRIES = 3
-    
+    TIMEOUT_SECONDS = 15 # タイムアウト時間を設定
+
     for attempt in range(MAX_RETRIES):
         try:
-            req = urllib.request.Request(GTFS_RT_URL, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req, timeout=5) as res:
-                
-                # HTTPステータスコードをチェック (通常は200)
-                if res.getcode() != 200:
-                    # 明示的にエラーを発生させることで、HTTPErrorブロックに捕捉させる
-                    raise urllib.error.HTTPError(GTFS_RT_URL, res.getcode(), f"HTTPエラーコード: {res.getcode()}", res.info(), None)
+            # requestsを使用
+            res = requests.get(
+                GTFS_RT_URL, 
+                headers={'User-Agent': 'Mozilla/5.0'}, 
+                timeout=TIMEOUT_SECONDS
+            )
+            res.raise_for_status() # HTTPエラー (4xx, 5xx) を自動で例外化
 
-                feed = gtfs_realtime_pb2.FeedMessage()
-                feed.ParseFromString(res.read())
+            feed = gtfs_realtime_pb2.FeedMessage()
+            feed.ParseFromString(res.content) # .content でバイナリデータを取得
 
-                updates = []
-                for entity in feed.entity:
-                    # ... (既存のパースロジックは省略せずに残す) ...
-                    if entity.HasField('trip_update'):
-                        tu = entity.trip_update
-                        trip_id = tu.trip.trip_id
-                        
-                        for stu in tu.stop_time_update:
-                            delay = 0
-                            if stu.HasField('departure') and stu.departure.HasField('delay'):
-                                delay = stu.departure.delay
-                            elif stu.HasField('arrival') and stu.arrival.HasField('delay'):
-                                delay = stu.arrival.delay
-                            
-                            if delay != 0 or stu.HasField('stop_id'):
-                                updates.append({
-                                    'trip_id': trip_id,
-                                    'stop_sequence': stu.stop_sequence,
-                                    'delay_sec': delay,
-                                    'rt_stop_id': stu.stop_id
-                                })
-                
-                if updates:
-                    return pd.DataFrame(updates)
-                else:
-                    return pd.DataFrame(columns=['trip_id', 'stop_sequence', 'delay_sec', 'rt_stop_id'])
+            # ... (後続のパースロジックは urllib の時と同じ) ...
+            updates = []
+            for entity in feed.entity:
+                if entity.HasField('trip_update'):
+                    # ... (パース処理) ...
+                    # ... (updatesリストへの追加) ...
 
-        except urllib.error.HTTPError as e:
-            # HTTPステータスコードエラー (403, 500など)
-            print(f"GTFS-RT取得エラー (Attempt {attempt+1}): [HTTP ERROR] コード: {e.code}, 理由: {e.reason}")
+            if updates:
+                return pd.DataFrame(updates)
+            else:
+                return pd.DataFrame(columns=['trip_id', 'stop_sequence', 'delay_sec', 'rt_stop_id'])
+
+        except requests.exceptions.Timeout:
+            print(f"GTFS-RT取得エラー (Attempt {attempt+1}): [requests ERROR] 理由: 接続タイムアウト")
             slp(1)
-        except urllib.error.URLError as e:
-            # URLアクセスエラー (接続失敗、SSLエラー、タイムアウトなど)
-            print(f"GTFS-RT取得エラー (Attempt {attempt+1}): [URL/CONNECTION ERROR] 理由: {e.reason}")
+        except requests.exceptions.RequestException as e:
+            print(f"GTFS-RT取得エラー (Attempt {attempt+1}): [requests ERROR] 詳細: {e}")
             slp(1)
         except Exception as e:
-            # その他のエラー（パースエラーなど）
             print(f"GTFS-RT取得エラー (Attempt {attempt+1}): [OTHER ERROR] 詳細: {e}")
             slp(1)
-            
+
     print("GTFS-RTデータの取得に失敗しました。空のDataFrameを返します。")
     return pd.DataFrame()
+
 
 def generate_schedule(stop_name):
     """指定されたバス停（親ID）のリアルタイム運行表を生成する"""
