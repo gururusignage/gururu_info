@@ -15,7 +15,7 @@ import os
 import requests # ★urllib.request, urllib.error の代わりに使用
 
 # --- 設定 ---
-GTFS_RT_URL = 'https://akita.bustei.net/TripUpdate.pb'
+GTFS_RT_URL = 'http://akita.bustei.net/TripUpdate.pb'
 JST = timezone(timedelta(hours=+9))
 APP_PORT = 5000
 TIMEOUT_SECONDS = 15 # GTFS-RTのタイムアウト時間 (接続+読み込み)
